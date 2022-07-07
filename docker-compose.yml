@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  app:
+    image: node:16.13.0-alpine
+    container_name: app
+    command: sh -c "npm i && npm start"
+    ports:
+      - 3000:3000
+    working_dir: /elegant-app
+    volumes:
+      - ./:/elegant-app
+    environment:
+      - DOCKER_MONGODB_URL=mongodb://mongodb:27017/elegant-app
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo_cofig:/data/configdb
+      - mongo:/data/db
+volumes:
+  mongo:
+  mongo_cofig:

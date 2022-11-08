@@ -4,22 +4,16 @@
     </button>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    function addActive(event: MouseEvent) {
+        const currentButton = event.currentTarget as HTMLButtonElement;
+        currentButton.classList.add("main_buttons__button_active");
+    }
 
-    export default defineComponent({
-        name: "VMainButtonsButton",
-        methods: {
-            addActive(event: MouseEvent) {
-                const currentButton = event.currentTarget as HTMLButtonElement;
-                currentButton.classList.add("main_buttons__button_active");
-            },
-            removeActive(event: MouseEvent) {
-                const currentButton = event.currentTarget as HTMLButtonElement;
-                currentButton.classList.remove("main_buttons__button_active");
-            }
-        }
-    });
+    function removeActive(event: MouseEvent) {
+        const currentButton = event.currentTarget as HTMLButtonElement;
+        currentButton.classList.remove("main_buttons__button_active");
+    }
 </script>
 
 <style lang="scss">

@@ -4,30 +4,26 @@
     alt="item_image"
     class="main_whoWeAreSecond__people___item____img"
     :style="additionalStyles"
-    @click="setWasImgClicked(true), setNowImageSrc(src)"
+    @click="setImgClickedTrue(), setNowImgSrc(src)"
     >
 </template>
 
-<script lang="ts">
-    import { defineComponent, PropType, CSSProperties } from "vue";
-    import { setWasImgClicked, setNowImageSrc } from "../../../functions/index";
+<script setup lang="ts">
+    import { PropType, CSSProperties } from "vue";
+    import useDownloadImage from "../../../general/stores/downloadImage";
 
-    export default defineComponent({
-        name: "VMainWhoWeAreSecondPeopleItemImg",
-        props: {
-            src: {
-                type: String as PropType<string>,
-                required: true
-            },
-            additionalStyles: {
-                type: Object as PropType<CSSProperties>
-            }
+    const downloadImageStore = useDownloadImage();
+    const { setImgClickedTrue, setNowImgSrc } = downloadImageStore;
+
+    defineProps({
+        src: {
+            type: String as PropType<string>,
+            required: true
         },
-        methods: {
-            setWasImgClicked,
-            setNowImageSrc
+        additionalStyles: {
+            type: Object as PropType<CSSProperties>
         }
-    })
+    });
 </script>
 
 <style lang="scss">

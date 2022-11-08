@@ -5,13 +5,7 @@
     </p>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
-
-    export default defineComponent({
-        name: "TheMainConteinerLeftColumP"
-    });
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss">
     .main_conteiner__leftColum___p {

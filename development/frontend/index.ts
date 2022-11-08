@@ -2,48 +2,47 @@ import "regenerator-runtime";
 import "@fontsource/open-sans";
 import "@fontsource/cardo"
 import createApp from "../general/index";
-const { app, router } = createApp();
-import {
-    setMatchMedia,
-    setIsPointerOnDocument,
-    logError,
-    setWasImgClicked,
-    setYGrabPercent,
-    isDownOnGrab,
-    setIsMenuOpen
-} from "../functions/index";
-import { SET_IS_NARROW_MOBILE, SET_IS_MIDDLE_DEVICE } from "../general/vuex/index";
+import { logError, setMatchMedia } from "../functions/index";
+import { storeToRefs } from "pinia";
+import useStore from "../general/stores";
+import useDownloadImage from "../general/stores/downloadImage";
+import useMenuNavbar from "../general/stores/menuNavbar";
+
+let lastDocumentWidth = document.documentElement.clientWidth;
+let lastTimeout: NodeJS.Timeout;
 
 window.addEventListener("resize", () => {
-    setTimeout(() => {
-        setMatchMedia();
-        setMatchMedia("(max-width: 680px)", SET_IS_NARROW_MOBILE);
-        setMatchMedia("(min-width: 751px) and (max-width: 1280px)", SET_IS_MIDDLE_DEVICE);
+    if ( lastTimeout ) clearTimeout(lastTimeout);
+    lastTimeout = setTimeout(() => {
+        const documentWidth = document.documentElement.clientWidth;
+        if ( lastDocumentWidth !== documentWidth ) {
+            setMatchMedia();
+            lastDocumentWidth = documentWidth;
+        }
     }, 500);
-    
 });
 
-window.addEventListener("orientationchange", () => {
-    setTimeout(() => {
-        setMatchMedia();
-        setMatchMedia("(max-width: 680px)", SET_IS_NARROW_MOBILE);
-        setMatchMedia("(min-width: 751px) and (max-width: 1280px)", SET_IS_MIDDLE_DEVICE);
-    }, 10);
-});
+window.addEventListener("orientationchange", () => setTimeout(setMatchMedia, 10));
 
-window.addEventListener("load", () => {
-    setMatchMedia();
-    setMatchMedia("(max-width: 680px)", SET_IS_NARROW_MOBILE);
-    setMatchMedia("(min-width: 751px) and (max-width: 1280px)", SET_IS_MIDDLE_DEVICE);
-});
+window.addEventListener("load", setMatchMedia);
 
 window.addEventListener("pointerdown", () => {
-    setIsPointerOnDocument(true);
-    setWasImgClicked(false);
+    const indeStore = useStore();
+    const { setPointerOnDocumentTrue } = indeStore;
+
+    const downloadImageStore = useDownloadImage();
+    const { setImgClickedFalse } = downloadImageStore;
+
+    setPointerOnDocumentTrue();
+    setImgClickedFalse();
 });
 
 window.addEventListener("pointermove", (event) => {
-    if ( !isDownOnGrab() ) return;
+    const menuNavbarStore = useMenuNavbar();
+    const { wasDownOnGrab } = storeToRefs(menuNavbarStore);
+    const { setYGrabPercent } = menuNavbarStore;
+
+    if ( !wasDownOnGrab.value ) return;
     let y = event.clientY, windowHeight = document.documentElement.clientHeight;
     let percent = 100 - Math.floor( ( y + 22.5 ) * 100 / windowHeight);
     if ( percent < 0 ) percent = 0;
@@ -51,16 +50,13 @@ window.addEventListener("pointermove", (event) => {
     setYGrabPercent(percent);
 });
 
-window.addEventListener("pointercancel", () => {
-    if ( !isDownOnGrab() ) return;
-    setIsMenuOpen(false);
-    setYGrabPercent(110);
-});
-
 async function registerServiceWorker() {
     try {
         if ( "serviceWorker" in navigator ) {
-            await navigator.serviceWorker.register("/serviceWorker.js", { scope: "/" });
+            if ( !/^https/.test(location.protocol) && location.hostname !== "localhost" ) return;
+            const registration = await navigator.serviceWorker.getRegistration("/");
+            if ( registration ) await registration.update();
+            else await navigator.serviceWorker.register("/serviceWorker.js", { scope: "/" });
         }
     } catch (error) {
         let err = error as Error;
@@ -71,6 +67,7 @@ async function registerServiceWorker() {
 registerServiceWorker();
 
 async function startApp() {
+    const { app, router } = createApp();
     await router.isReady();
     app.mount("#app");
 }

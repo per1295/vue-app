@@ -7,31 +7,26 @@
         </v-custom-button-vue>
         <v-custom-button-vue
         :additional-styles="{ 'width': '40%', 'height': '50px' }"
-        :additional-listener="() => { setWasImgClicked(false); }">
+        :additional-listener="setImgClickedFalse">
             No
         </v-custom-button-vue>
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
-    import VCustomButtonVue from "./VCustomButton.vue";
-    import { setWasImgClicked } from "../../functions/index";
+<script setup lang="ts">
+    import { storeToRefs } from "pinia";
+    import useDownloadImage from "../../general/stores/downloadImage";
 
-    export default defineComponent({
-        name: "TheDownloadButtons",
-        components: {
-            VCustomButtonVue
-        },
-        methods: {
-            setWasImgClicked,
-            async download() {
-                const { nowImageSrc } = this.$store.state;
-                const [ filename, ext ] = nowImageSrc.split(".");
-                open(`/global/download?filename=${filename}&ext=${ext}`, "image");
-            } 
-        }
-    });
+    import VCustomButtonVue from "./VCustomButton.vue";
+
+    const downloadImageStore = useDownloadImage();
+    const { nowImgSrc } = storeToRefs(downloadImageStore);
+    const { setImgClickedFalse } = downloadImageStore;
+
+    async function download() {
+        const [ filename, ext ] = nowImgSrc.value.split(".");
+        open(`/global/download?filename=${filename}&ext=${ext}`, "image");
+    }
 </script>
 
 <style lang="scss">

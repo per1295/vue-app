@@ -6,18 +6,15 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent, PropType } from "vue";
+<script setup lang="ts">
+    import { PropType } from "vue";
 
-    export default defineComponent({
-        name: "TheMainInfBlock",
-        props: {
-            title: {
-                type: String as PropType<string>,
-                required: true
-            }
+    defineProps({
+        title: {
+            type: String as PropType<string>,
+            required: true
         }
-    })
+    });
 </script>
 
 <style lang="scss">

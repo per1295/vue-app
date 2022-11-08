@@ -12,35 +12,26 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { storeToRefs } from "pinia";
+    import useStore from "../../../general/stores";
+    import { useRouter } from "vue-router";
+    import { scrollToTop } from "../../../functions/index";
+
     import VCategoryH3Vue from "../../globalComponents/VCategoryH3.vue";
     import VCategoryPVue from "../../globalComponents/VCategoryP.vue";
     import VCategoryDescriptionVue from "../../globalComponents/VCategoryDescription.vue";
     import VCustomButtonVue from "../../globalComponents/VCustomButton.vue";
 
-    import { scrollToTop } from "../../../functions/index";
+    const indexStore = useStore();
+    const { isMobile } = storeToRefs(indexStore);
 
-    export default defineComponent({
-        name: "TheMainWhoWeAre",
-        components: {
-            VCategoryH3Vue,
-            VCategoryPVue,
-            VCategoryDescriptionVue,
-            VCustomButtonVue
-        },
-        computed: {
-            isMobile() {
-                return this.$store.state.isMobile;
-            }
-        },
-        methods: {
-            toAbout() {
-                this.$router.push("/about");
-                scrollToTop();
-            }
-        }
-    });
+    const router = useRouter();
+
+    function toAbout() {
+        router.push("/about");
+        scrollToTop();
+    }
 </script>
 
 <style lang="scss">

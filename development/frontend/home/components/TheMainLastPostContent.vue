@@ -14,40 +14,26 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { storeToRefs } from "pinia";
+    import { computed, onMounted } from "vue";
+    import usePostsData from "../../../general/stores/home/postData";
+    import useStore from "../../../general/stores";
+
     import VPreloaderVue from "../../globalComponents/VPreloader.vue";
-    import { GET_POST_DATA } from "../../../general/vuex/home";
     import VImageVue from "../../globalComponents/VImage.vue";
     import TheMainLastPostContentValueVue from "./TheMainLastPostContentValue.vue";
 
-    export default defineComponent({
-        name: "TheMainLastPostContent",
-        components: {
-            VPreloaderVue,
-            VImageVue,
-            TheMainLastPostContentValueVue
-        },
-        computed: {
-            isPostLoaded() {
-                return this.$store.getters.isPostLoaded;
-            },
-            src() {
-                return this.$store.state.isMobile ?
-                this.$store.state.home.postData.imgForMobile
-                :
-                this.$store.state.home.postData.imgForComputer
-            },
-            isNarrowMobile() {
-                return this.$store.state.isNarrowMobile
-            }
-        },
-        mounted() {
-            this.$store.dispatch({
-                type: GET_POST_DATA
-            });
-        }
-    })
+    const postDataStore = usePostsData();
+    const { isPostLoaded, postData } = storeToRefs(postDataStore);
+    const { getPostData } = postDataStore;
+
+    const indexStore = useStore();
+    const { isMobile, isNarrowMobile } = storeToRefs(indexStore);
+
+    const src = computed(() => isMobile.value ? postData.value.imgForMobile : postData.value.imgForComputer);
+
+    onMounted(() => getPostData());
 </script>
 
 <style lang="scss">

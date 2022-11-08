@@ -1,6 +1,6 @@
 <template>
     <div class="main_lastPost__content___value">
-        <the-main-last-post-content-value-data-vue/>
+        <the-main-last-post-content-value-date-vue/>
         <the-main-last-post-content-value-title-vue/>
         <the-main-last-post-content-value-description-vue/>
         <v-custom-button-vue
@@ -18,30 +18,17 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
-    import TheMainLastPostContentValueDataVue from "./TheMainLastPostContentValueData.vue";
+<script setup lang="ts">
+    import { storeToRefs } from "pinia";
+    import useStore from "../../../general/stores";
+
+    import TheMainLastPostContentValueDateVue from "./TheMainLastPostContentValueDate.vue";
     import TheMainLastPostContentValueTitleVue from "./TheMainLastPostContentValueTitle.vue";
     import TheMainLastPostContentValueDescriptionVue from "./TheMainLastPostContentValueDescription.vue";
     import VCustomButtonVue from "../../globalComponents/VCustomButton.vue";
 
-    export default defineComponent({
-        name: "TheMainLastPostContentValue",
-        components: {
-            TheMainLastPostContentValueDataVue,
-            TheMainLastPostContentValueTitleVue,
-            TheMainLastPostContentValueDescriptionVue,
-            VCustomButtonVue
-        },
-        computed: {
-            isMobile() {
-                return this.$store.state.isMobile;
-            },
-            isNarrowMobile() {
-                return this.$store.state.isNarrowMobile;
-            }
-        }
-    })
+    const indexStore = useStore();
+    const { isMobile, isNarrowMobile } = storeToRefs(indexStore);
 </script>
 
 <style lang="scss">

@@ -6,20 +6,10 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
     import TheMainConteinerLeftColumH2Vue from "./TheMainConteinerLeftColumH2.vue";
     import TheMainConteinerLeftColumPVue from "./TheMainConteinerLeftColumP.vue";
     import TheMainConteinerLeftColumImagesVue from "./TheMainConteinerLeftColumImages.vue";
-
-    export default defineComponent({
-        name: "TheMainConteinerLeftColum",
-        components: {
-            TheMainConteinerLeftColumH2Vue,
-            TheMainConteinerLeftColumPVue,
-            TheMainConteinerLeftColumImagesVue
-        }
-    });
 </script>
 
 <style lang="scss">

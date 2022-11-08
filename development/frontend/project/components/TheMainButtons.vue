@@ -6,25 +6,10 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
     import VMainButtonsButtonVue from "./VMainButtonsButton.vue";
 
-    export default defineComponent({
-        name: "TheMainButtons",
-        data() {
-            return {
-                ARRAY_BUTTONS: [
-                    "Facebook",
-                    "Twitter",
-                    "Google+"
-                ]
-            }
-        },
-        components: {
-            VMainButtonsButtonVue
-        }
-    });
+    const ARRAY_BUTTONS = [ "Facebook", "Twitter", "Google+" ];
 </script>
 
 <style lang="scss">

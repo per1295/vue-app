@@ -1,20 +1,15 @@
 <template>
     <p class="main_lastPost__content___value____description">
-        {{ content }}
+        {{ postData.content }}
     </p>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { storeToRefs } from 'pinia';
+    import usePostData from '../../../general/stores/home/postData';
 
-    export default defineComponent({
-        name: "TheMainLastPostContentValueDescription",
-        computed: {
-            content() {
-                return this.$store.state.home.postData.content
-            }
-        }
-    })
+    const postDataStore = usePostData();
+    const { postData } = storeToRefs(postDataStore);
 </script>
 
 <style lang="scss">

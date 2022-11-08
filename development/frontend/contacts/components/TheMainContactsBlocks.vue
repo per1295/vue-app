@@ -10,8 +10,7 @@
         <v-image-vue
         :src="isMobile ? mobileBlockImage : blockImage"
         alt="blockImage"
-        :additional-style=
-        "{
+        :additional-style="{
             'margin': `0 0 0 ${isMobile ? 0 : 6}px`,
             'max-width': isMobile ? '100%' : 'none',
         }"
@@ -27,8 +26,10 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { storeToRefs } from "pinia";
+    import useStore from "../../../general/stores";
+
     import TheMainContactsBlocksTextBlockVue from "./TheMainContactsBlocksTextBlock.vue";
     import VMainContactsBlocksInfBlockVue from "./VMainContactsBlocksInfBlock.vue";
     import VImageVue from "../../globalComponents/VImage.vue";
@@ -36,28 +37,8 @@
     import blockImage from "../images/rectangle_602.png";
     import mobileBlockImage from "../mobileImages/rectangle_397_mobile.png";
 
-    export default defineComponent({
-        name: "TheMainContactsBlocks",
-        data() {
-            return {
-                blockImage,
-                mobileBlockImage
-            }
-        },
-        components: {
-            TheMainContactsBlocksTextBlockVue,
-            VMainContactsBlocksInfBlockVue,
-            VImageVue
-        },
-        computed: {
-            isMobile() {
-                return this.$store.state.isMobile;
-            },
-            isMiddleDevice() {
-                return this.$store.state.isMiddleDevice;
-            }
-        }
-    });
+    const indexStore = useStore()
+    const { isMobile } = storeToRefs(indexStore);
 </script>
 
 <style lang="scss">

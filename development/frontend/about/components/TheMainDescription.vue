@@ -11,17 +11,12 @@
     </p>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { storeToRefs } from 'pinia';
+    import useStore from '../../../general/stores';
 
-    export default defineComponent({
-        name: "TheMainDescription",
-        computed: {
-            isMobile() {
-                return this.$store.state.isMobile;
-            }
-        }
-    });
+    const indexStore = useStore();
+    const { isMobile } = storeToRefs(indexStore);
 </script>
 
 <style lang="scss">

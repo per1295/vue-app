@@ -1,7 +1,7 @@
 <template>
     <div class="main_contactUs__conteiner___data">
         <the-main-contact-us-conteiner-data-item-vue
-        v-for="( item, index ) of titles"
+        v-for="( item, index ) of TITLES"
         :title="item"
         :data-item1="data[index][0]"
         :data-item2="data[index][1]"
@@ -9,44 +9,39 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { computed } from "vue";
+    import { storeToRefs } from "pinia";
+    import useStore from "../../../general/stores";
+
     import TheMainContactUsConteinerDataItemVue from "./TheMainContactUsConteinerDataItem.vue";
 
-    export default defineComponent({
-        name: "TheMainContactUsConteinerData",
-        components: {
-            TheMainContactUsConteinerDataItemVue
-        },
-        data() {
-            return {
-                titles: [ "Location", "Phone", "Fax", "Email" ]
-            }
-        },
-        computed: {
-            data() {
-                let isMobile = this.$store.state.isMobile;
-                let emailsArray = isMobile ?
-                [ "e@elegant.com", "c@elegant.com" ]
-                :
-                [ "elegant@elegant.com", "commercial@elegant.com" ];
-                let addressArray = isMobile ?
-                [ "198 West 21th Street, New York,", "NY 10010" ]
-                :
-                [ "198 West 21th Street, New", "York, NY 10010" ];
-                let numbersArray = isMobile ?
-                [ "+88 (0) 101 0000 000", "+88 (0) 101 0000 000" ]
-                :
-                [ "+88 (0) 101 0000000", "+88 (0) 101 0000000" ];
-                return [
-                    addressArray,
-                    numbersArray,
-                    [ "+88 (0) 202 0000 000", "+88 (0) 202 0000 000" ],
-                    emailsArray
-                ];
-            }
-        }
-    })
+    const TITLES = [ "Location", "Phone", "Fax", "Email" ];
+
+    const indexStore = useStore();
+    const { isMobile } = storeToRefs(indexStore);
+
+    const data = computed(() => {
+        const emailsArray = isMobile.value ?
+        [ "e@elegant.com", "c@elegant.com" ]
+        :
+        [ "elegant@elegant.com", "commercial@elegant.com" ];
+        const addressArray = isMobile.value ?
+        [ "198 West 21th Street, New York,", "NY 10010" ]
+        :
+        [ "198 West 21th Street, New", "York, NY 10010" ];
+        const numbersArray = isMobile.value ?
+        [ "+88 (0) 101 0000 000", "+88 (0) 101 0000 000" ]
+        :
+        [ "+88 (0) 101 0000000", "+88 (0) 101 0000000" ];
+
+        return [
+            addressArray,
+            numbersArray,
+            [ "+88 (0) 202 0000 000", "+88 (0) 202 0000 000" ],
+            emailsArray
+        ];
+    });
 </script>
 
 <style lang="scss">

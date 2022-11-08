@@ -4,13 +4,7 @@
     </h2>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
-
-    export default defineComponent({
-        name: "TheMainConteinerLeftColumH2"
-    });
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss">
     .main_conteiner__leftColum___h2 {

@@ -10,8 +10,11 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { computed } from "vue";
+    import { storeToRefs } from "pinia";
+    import useStore from "../../../general/stores";
+
     import VImageVue from "../../globalComponents/VImage.vue";
 
     import img1_540 from "../images/img1_540.png";
@@ -24,41 +27,16 @@
     import img3_351_mobile from "../mobileImages/img3_351_mobile.png";
     import img4_352_mobile from "../mobileImages/img4_352_mobile.png";
 
-    export default defineComponent({
-        name: "TheMainConteinerLeftColumImages",
-        data() {
-            return {
-                IMAGES_ARRAY: [
-                    img1_540,
-                    img2_545,
-                    img3_546,
-                    img4_547
-                ],
-                MOBILE_IMAGES_ARRAY: [
-                    img1_349_mobile,
-                    img2_350_mobile,
-                    img3_351_mobile,
-                    img4_352_mobile
-                ]
-            }
-        },
-        components: {
-            VImageVue
-        },
-        computed: {
-            isMobile() {
-                return this.$store.state.isMobile;
-            },
-            additionalStyleImage() {
-                const isNarrowMobile = this.$store.state.isNarrowMobile,
-                isMiddleDevice = this.$store.state.isMiddleDevice;
-                return {
-                    maxWidth: isNarrowMobile || isMiddleDevice ? "100%": "none",
-                    width: isNarrowMobile || isMiddleDevice ? "100%" : "auto"
-                }
-            }
-        }
-    });
+    const IMAGES_ARRAY = [ img1_540, img2_545, img3_546, img4_547 ];
+    const MOBILE_IMAGES_ARRAY = [ img1_349_mobile, img2_350_mobile, img3_351_mobile, img4_352_mobile ];
+
+    const indexStore = useStore();
+    const { isMobile, isNarrowMobile, isMiddleDevice } = storeToRefs(indexStore);
+
+    const additionalStyleImage = computed(() => ({
+        maxWidth: isNarrowMobile || isMiddleDevice ? "100%": "none",
+        width: isNarrowMobile || isMiddleDevice ? "100%" : "auto"
+    }));
 </script>
 
 <style lang="scss">

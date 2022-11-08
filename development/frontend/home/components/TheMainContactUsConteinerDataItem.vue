@@ -14,32 +14,26 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent, PropType } from "vue";
+<script setup lang="ts">
+    import { PropType } from "vue";
+
     import TheMainContactUsConteinerDataItemH4Vue from "./TheMainContactUsConteinerDataItemH4.vue";
     import TheMainContactUsConteinerDataItemPVue from "./TheMainContactUsConteinerDataItemP.vue";
 
-    export default defineComponent({
-        name: "TheMainContactUsConteinerDataItem",
-        components: {
-            TheMainContactUsConteinerDataItemH4Vue,
-            TheMainContactUsConteinerDataItemPVue
+    defineProps({
+        title: {
+            type: String as PropType<string>,
+            required: true
         },
-        props: {
-            title: {
-                type: String as PropType<string>,
-                required: true
-            },
-            dataItem1: {
-                type: String as PropType<string>,
-                required: true
-            },
-            dataItem2: {
-                type: String as PropType<string>,
-                required: true
-            }
+        dataItem1: {
+            type: String as PropType<string>,
+            required: true
+        },
+        dataItem2: {
+            type: String as PropType<string>,
+            required: true
         }
-    })
+    });
 </script>
 
 <style lang="scss">

@@ -10,8 +10,11 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { computed } from "vue";
+    import { storeToRefs } from "pinia";
+    import useStore from "../../../general/stores";
+
     import VImageVue from "../../globalComponents/VImage.vue";
 
     import rectangle_550 from "../images/rectangle_550.png";
@@ -28,45 +31,23 @@
     import rectangle_338_mobile from "../mobileImages/rectangle_338_mobile.png";
     import rectangle_342_mobile from "../mobileImages/rectangle_342_mobile.png";
 
-    export default defineComponent({
-        name: "TheMainConteinerRightColum",
-        data() {
-            return {
-                IMAGES_ARRAY: [
-                    rectangle_550,
-                    rectangle_553,
-                    rectangle_558,
-                    rectangle_562,
-                    rectangle_566,
-                    rectangle_570
-                ],
-                MOBILE_IMAGES_ARRAY: [
-                    rectangle_322_mobile,
-                    rectangle_326_mobile,
-                    rectangle_330_mobile,
-                    rectangle_334_mobile,
-                    rectangle_338_mobile,
-                    rectangle_342_mobile
-                ]
-            }
-        },
-        components: {
-            VImageVue
-        },
-        computed: {
-            isMobile() {
-                return this.$store.state.isMobile;
-            },
-            additionalStyleImage() {
-                const isNarrowMobile = this.$store.state.isNarrowMobile,
-                isMiddleDevice = this.$store.state.isMiddleDevice;
-                return {
-                    maxWidth: isNarrowMobile || isMiddleDevice ? "100%": "none",
-                    width: isNarrowMobile || isMiddleDevice ? "100%" : "auto"
-                }
-            }
-        }
-    });
+    const IMAGES_ARRAY = [ rectangle_550, rectangle_553, rectangle_558, rectangle_562, rectangle_566, rectangle_570 ];
+    const MOBILE_IMAGES_ARRAY = [
+        rectangle_322_mobile,
+        rectangle_326_mobile,
+        rectangle_330_mobile,
+        rectangle_334_mobile,
+        rectangle_338_mobile,
+        rectangle_342_mobile
+    ];
+
+    const indexStore = useStore();
+    const { isMobile, isMiddleDevice, isNarrowMobile } = storeToRefs(indexStore);
+
+    const additionalStyleImage = computed(() => ({
+        maxWidth: isNarrowMobile || isMiddleDevice ? "100%": "none",
+        width: isNarrowMobile || isMiddleDevice ? "100%" : "auto"
+    }));
 </script>
 
 <style lang="scss">

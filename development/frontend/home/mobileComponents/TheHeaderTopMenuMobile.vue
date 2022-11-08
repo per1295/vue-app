@@ -1,20 +1,14 @@
 <template>
-    <button class="header_top__menu_mobile" @click="setIsMenuOpen(true), setYGrabPercent(0)">
+    <button class="header_top__menu_mobile" @click="openMenu()">
         <img src="../mobileImages/cd_menu_icon_11.png" alt="mobile_icon">
     </button>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
-    import { setIsMenuOpen, setYGrabPercent } from "../../../functions/index";
-
-    export default defineComponent({
-        name: "TheHeaderTopMenuMobile",
-        methods: {
-            setIsMenuOpen,
-            setYGrabPercent
-        }
-    })
+<script setup lang="ts">
+    import useMenuNavbar from '../../../general/stores/menuNavbar';
+    
+    const menuNavbarStore = useMenuNavbar();
+    const { openMenu } = menuNavbarStore;
 </script>
 
 <style lang="scss">

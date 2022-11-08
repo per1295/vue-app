@@ -5,18 +5,9 @@
     </main>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
     import TheMainDescriptionVue from "./TheMainDescription.vue";
     import TheMainBottomVue from "./TheMainBottom.vue";
-
-    export default defineComponent({
-        name: "TheMain",
-        components: {
-            TheMainDescriptionVue,
-            TheMainBottomVue
-        }
-    });
 </script>
 
 <style scoped lang="scss">

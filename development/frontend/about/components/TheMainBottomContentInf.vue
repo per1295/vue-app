@@ -16,36 +16,25 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { storeToRefs } from "pinia";
+    import useStore from "../../../general/stores";
+
     import TheMainBottomContentInfItemVue from "./TheMainBottomContentInfItem.vue";
     import TheMainBottomContentInfItemPartVue from "./TheMainBottomContentInfItemPart.vue";
 
-    export default defineComponent({
-        name: "TheMainBottomContentInf",
-        components: {
-            TheMainBottomContentInfItemVue,
-            TheMainBottomContentInfItemPartVue
-        },
-        data() {
-            return {
-                THE_MAIN_BOTTOM_CONTENT_INF_ITEMS: [
-                    "-  Branding",
-                    "-  Visual Identity",
-                    "-  Web & Digital Design", 
-                    "-  Annual Reports", 
-                    "-  Books & Brochures", 
-                    "-  Programs & Editorial",
-                    "-  Creative Consultancy"
-                ]
-            }
-        },
-        computed: {
-            isMobile() {
-                return this.$store.state.isMobile;
-            }
-        }
-    });
+    const indexStore = useStore();
+    const { isMobile } = storeToRefs(indexStore);
+
+    const THE_MAIN_BOTTOM_CONTENT_INF_ITEMS = [
+        "-  Branding",
+        "-  Visual Identity",
+        "-  Web & Digital Design", 
+        "-  Annual Reports", 
+        "-  Books & Brochures", 
+        "-  Programs & Editorial",
+        "-  Creative Consultancy"
+    ];
 </script>
 
 <style lang="scss">

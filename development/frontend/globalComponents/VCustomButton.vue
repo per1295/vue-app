@@ -1,8 +1,8 @@
 <template>
-    <button class="customButton"
+    <button ref="rootElRef" class="customButton"
     :style="additionalStyles"
-    @pointerover="isMobileOrTablet ? undefined : overButton()"
-    @pointerout="isMobileOrTablet ? undefined : outButton()"
+    @pointerover="isMobileOrTablet.value ? undefined : overButton()"
+    @pointerout="isMobileOrTablet.value ? undefined : outButton()"
     @click="clickListener($event)"
     >
         <slot>
@@ -11,49 +11,47 @@
     </button>
 </template>
 
-<script lang="ts">
-    import { defineComponent, PropType, CSSProperties } from "vue";
+<script setup lang="ts">
+    import { watch, PropType, CSSProperties, computed, ref } from "vue";
     import { callSetIsPointerOnDocumentFalse, isNotComputer } from "../../functions";
-    export default defineComponent({
-        name: "VCustomButton",
-        props: {
-            additionalStyles: {
-                type: Object as PropType<CSSProperties>
-            },
-            additionalListener: {
-                type: Function as PropType<Function>
-            }
+    import { storeToRefs } from "pinia";
+    import useStore from "../../general/stores";
+
+    const props = defineProps({
+        additionalStyles: {
+            type: Object as PropType<CSSProperties>
         },
-        computed: {
-            isMobileOrTablet() {
-                return this.$store.state.isMobile || isNotComputer();
-            },
-            isPointerOnDocument() {
-                return this.$store.state.isPointerOnDocument;
-            }
-        },
-        methods: {
-            overButton() {
-                const buttonElement = this.$el as HTMLButtonElement;
-                buttonElement.classList.add("customButtonActive");
-            },
-            outButton() {
-                const buttonElement = this.$el as HTMLButtonElement;
-                buttonElement.classList.remove("customButtonActive");
-            },
-            callSetIsPointerOnDocumentFalse,
-            clickListener<TypeEvent extends Event>(event: TypeEvent) {
-                if ( this.isMobileOrTablet ) callSetIsPointerOnDocumentFalse(this.overButton)();
-                if ( this.additionalListener ) this.additionalListener(event);
-            }
-        },
-        watch: {
-            isPointerOnDocument(nowValue) {
-                if ( !this.isMobileOrTablet ) return;
-                if ( nowValue ) this.outButton();
-            }
+        additionalListener: {
+            type: Function as PropType<Function>
         }
-    })
+    });
+
+    const rootElRef = ref();
+
+    const indexStore = useStore();
+    const { isPointerOnDocument, isMobile } = storeToRefs(indexStore);
+
+    const isMobileOrTablet = computed(() => isMobile || isNotComputer());
+
+    watch(isPointerOnDocument, (nowValue) => {
+        if ( !isMobileOrTablet.value ) return;
+        if ( nowValue ) outButton();
+    });
+
+    function overButton() {
+        const buttonElement = rootElRef.value as HTMLButtonElement;
+        buttonElement.classList.add("customButtonActive");
+    };
+
+    function outButton() {
+        const buttonElement = rootElRef.value as HTMLButtonElement;
+        buttonElement.classList.remove("customButtonActive");
+    };
+
+    function clickListener<TypeEvent extends Event>(event: TypeEvent) {
+        if ( isMobileOrTablet.value ) callSetIsPointerOnDocumentFalse(overButton)();
+        if ( props.additionalListener ) props.additionalListener(event);
+    };
 </script>
 
 <style lang="scss">

@@ -7,35 +7,23 @@
     >
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { storeToRefs } from "pinia";
+    import useStore from "../../general/stores";
+    import { useRouter } from "vue-router";
+
     import main_menu from "./images/cd_logo_5.png";
     import mobile_menu from "./mobileImages/cd_logo_9.png";
     import narrow_mobile_menu from "./mobileImages/mobile_menu__image.png";
 
-    export default defineComponent({
-        name: "TheHeaderLogo",
-        methods: {
-            redirectToHome() {
-                this.$router.push({ path: "/home" });
-            }
-        },
-        data() {
-            return {
-                mobile_menu,
-                main_menu,
-                narrow_mobile_menu
-            }
-        },
-        computed: {
-            isMobile() {
-                return this.$store.state.isMobile;
-            },
-            isNarrowMobile() {
-                return this.$store.state.isNarrowMobile;
-            }
-        }
-    })
+    const indexStore = useStore();
+    const { isMobile, isNarrowMobile } = storeToRefs(indexStore);
+
+    const router = useRouter();
+
+    function redirectToHome() {
+        router.push({ path: "/home" });
+    }
 </script>
 
 <style lang="scss">

@@ -27,27 +27,17 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { storeToRefs } from "pinia";
+    import useStore from "../../../general/stores";
+
     import VCategoryH3Vue from "../../globalComponents/VCategoryH3.vue";
     import VCategoryPVue from "../../globalComponents/VCategoryP.vue";
     import VCategoryDescriptionVue from "../../globalComponents/VCategoryDescription.vue";
     import TheMainWhatWeDoWorksVue from "../../globalComponents/TheMainWhatWeDoWorks.vue";
 
-    export default defineComponent({
-        name: "TheMainWorks",
-        components: {
-            VCategoryH3Vue,
-            VCategoryPVue,
-            VCategoryDescriptionVue,
-            TheMainWhatWeDoWorksVue
-        },
-        computed: {
-            isMobile() {
-                return this.$store.state.isMobile;
-            }
-        }
-    })
+    const indexStore = useStore();
+    const { isMobile } = storeToRefs(indexStore);
 </script>
 
 <style lang="scss">

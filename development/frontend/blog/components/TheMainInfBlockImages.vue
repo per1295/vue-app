@@ -10,8 +10,7 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
     import VImageVue from "../../globalComponents/VImage.vue";
 
     import rectangle_652_blog from "../images/rectangle_652_blog.png";
@@ -19,22 +18,7 @@
     import rectangle_660_blog from "../images/rectangle_660_blog.png";
     import rectangle_664_blog from "../images/rectangle_664_blog.png";
 
-    export default defineComponent({
-        name: "TheMainInfBlockImages",
-        data() {
-            return {
-                INF_BLOCK_IMAGES: [
-                    rectangle_652_blog,
-                    rectangle_656_blog,
-                    rectangle_660_blog,
-                    rectangle_664_blog
-                ]
-            }
-        },
-        components: {
-            VImageVue
-        }
-    })
+    const INF_BLOCK_IMAGES = [ rectangle_652_blog, rectangle_656_blog, rectangle_660_blog, rectangle_664_blog ];
 </script>
 
 <style lang="scss">

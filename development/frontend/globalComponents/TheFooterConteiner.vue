@@ -4,39 +4,33 @@
             © 2014 Designed and Developed by Diogo Dantas
         </v-footer-conteiner-item-vue>
         <v-footer-conteiner-item-vue
-        :additional-styles="
-        isNarrowMobile ?
-        { 'margin': '20.5px 0 69.5px 0' }
-        :
-        isMobile
-        ?
-        { 'margin': '20.5px 0 0 0' }
-        :
-        {}"
+        :additional-styles="additionalStyles"
         >
             {{ isNarrowMobile ? "Email: imdiogodantas @gmail.com" : "Email: imdiogodantas@gmail.com" }}
         </v-footer-conteiner-item-vue>
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { computed } from "vue";
+    import { storeToRefs } from "pinia";
+    import useStore from "../../general/stores";
+
     import VFooterConteinerItemVue from "./VFooterConteinerItem.vue";
 
-    export default defineComponent({
-        name: "TheFooterConteiner",
-        components: {
-            VFooterConteinerItemVue
-        },
-        computed: {
-            isMobile() {
-                return this.$store.state.isMobile;
-            },
-            isNarrowMobile() {
-                return this.$store.state.isNarrowMobile;
-            }
-        }
-    })
+    const indexStore = useStore();
+    const { isMobile, isNarrowMobile } = storeToRefs(indexStore);
+
+    const additionalStyles = computed(() => (
+        isNarrowMobile.value ?
+        { 'margin': '20.5px 0 69.5px 0' }
+        :
+        isMobile.value
+        ?
+        { 'margin': '20.5px 0 0 0' }
+        :
+        {}
+    ));
 </script>
 
 <style lang="scss">

@@ -4,19 +4,16 @@
     </h3>
 </template>
 
-<script lang="ts">
-    import { defineComponent, PropType, CSSProperties } from "vue";
+<script setup lang="ts">
+    import { PropType, CSSProperties } from "vue";
 
-    export default defineComponent({
-        name: "VCategoryH3",
-        props: {
-            title: {
-                type: String as PropType<string>,
-                required: true
-            },
-            additionalStyles: {
-                type: Object as PropType<CSSProperties>
-            }
+    defineProps({
+        title: {
+            type: String as PropType<string>,
+            required: true
+        },
+        additionalStyles: {
+            type: Object as PropType<CSSProperties>
         }
     });
 </script>

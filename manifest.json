@@ -1,13 +1,13 @@
 {
-    "name": "Web-app",
+    "name": "Vue-app",
     "short_name": "App",
     "lang": "en-GB",
     "start_url": "/",
     "display": "standalone",
     "theme_color": "#d4af37",
-    "description": "Vue.js web-app",
+    "description": "Vue-app Web-app",
     "gcm_sender_id": "489912224080",
-    "background_color": "#ffffff",
+    "background_color": "#d4af37",
     "orientation": "any",
     "icons": [
         {

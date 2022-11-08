@@ -4,13 +4,7 @@
     </h4>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
-
-    export default defineComponent({
-        name: "TheMainContactUsConteinerDataItemH4",
-    })
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss">
     .main_contactUs__conteiner___data____item_____h4 {

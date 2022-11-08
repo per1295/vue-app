@@ -4,25 +4,20 @@
     </p>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { computed } from "vue";
+    import { storeToRefs } from "pinia";
+    import usePostData from "../../../general/stores/home/postData";
     import { getMonthName } from "../../../functions";
 
-    export default defineComponent({
-        name: "TheMainLastPostContentValueData",
-        computed: {
-            data() {
-                return this.$store.state.home.postData.data
-            },
-            parsedData() {
-                let data = this.$store.state.home.postData.data as string | null;
-                if ( data === null ) return null;
-                let dataArray = data.split(".");
-                let monthName = getMonthName(+dataArray[1]);
-                dataArray.splice(1, 1, monthName);
-                return dataArray.join(" ");
-            }
-        }
+    const postDataStore = usePostData();
+    const { postData } = storeToRefs(postDataStore);
+
+    const parsedData = computed(() => {
+        const dataArray = postData.value.date.split(".");
+        const monthName = getMonthName(+dataArray[1]);
+        dataArray.splice(1, 1, monthName);
+        return dataArray.join(" ");
     });
 </script>
 

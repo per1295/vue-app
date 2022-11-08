@@ -1,5 +1,5 @@
 <template>
-    <div class="navLinks_grab" @pointerenter="setDown(true)" @pointerleave="setDown(false)">
+    <div class="navLinks_grab" @pointerenter="setOnGrabTrue()" @pointerleave="setOnGrabFalse()">
         <div class="navLinks_grab__lines">
             <div class="navLinks_grab__lines___line first"></div>
             <div class="navLinks_grab__lines___line second"></div>
@@ -15,65 +15,49 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
-    import { setDownOnGrab, setIsMenuOpen, setYGrabPercent } from "../../functions/index";
+<script setup lang="ts">
+    import { watch } from "vue";
+    import { storeToRefs } from "pinia";
+    import useMenuNavbar from "../../general/stores/menuNavbar";
 
-    export default defineComponent({
-        name: "TheNavLinksGrab",
-        computed: {
-            yGrabPercent() {
-                return this.$store.state.yGrabPercent;
-            }
-        },
-        methods: {
-            setDown(isTrue: boolean) {
-                if ( this.yGrabPercent >= 10 ) {
-                    setIsMenuOpen(false);
-                    setYGrabPercent(110);
+    const menuNavbarStore = useMenuNavbar();
+    const { yGrabPercent } = storeToRefs(menuNavbarStore);
+    const { setOnGrabTrue, setOnGrabFalse } = menuNavbarStore;
+
+    watch(yGrabPercent, (nowValue, oldValue) => {
+        const firstLines = document.getElementsByClassName("navLinks_grab__lines___line first") as HTMLCollectionOf<HTMLDivElement>;
+        const secondLines = document.getElementsByClassName("navLinks_grab__lines___line second") as HTMLCollectionOf<HTMLDivElement>;
+        const isValueGreaterThenOldValue = nowValue > oldValue;
+
+        Array.from(firstLines).forEach(line => {
+            const classList = line.classList;
+            if ( nowValue !== 0 && nowValue < 110 ) {
+                if ( isValueGreaterThenOldValue ) {
+                    classList.remove("rotate_pos");
+                    classList.add("rotate_neg");
                 } else {
-                    setYGrabPercent(0);
+                    classList.remove("rotate_neg");
+                    classList.add("rotate_pos");
                 }
-                setDownOnGrab(isTrue);
+            } else {
+                classList.remove("rotate_pos", "rotate_neg");
             }
-        },
-        watch: {
-            yGrabPercent(value, oldValue) {
-                const firstLines = document.getElementsByClassName("navLinks_grab__lines___line first") as HTMLCollectionOf<HTMLDivElement>;
-                const secondLines = document.getElementsByClassName("navLinks_grab__lines___line second") as HTMLCollectionOf<HTMLDivElement>;
-                const isValueGreaterThenOldValue = value > oldValue;
+        });
 
-                Array.from(firstLines).forEach(line => {
-                    const classList = line.classList;
-                    if ( value !== 0 && value < 110 ) {
-                        if ( isValueGreaterThenOldValue ) {
-                            classList.remove("rotate_pos");
-                            classList.add("rotate_neg");
-                        } else {
-                            classList.remove("rotate_neg");
-                            classList.add("rotate_pos");
-                        }
-                    } else {
-                        classList.remove("rotate_pos", "rotate_neg");
-                    }
-                });
-
-                Array.from(secondLines).forEach(line => {
-                    const classList = line.classList;
-                    if ( value !== 0 && value < 110 ) {
-                        if ( isValueGreaterThenOldValue ) {
-                            classList.remove("rotate_neg");
-                            classList.add("rotate_pos");
-                        } else {
-                            classList.remove("rotate_pos");
-                            line.classList.add("rotate_neg");
-                        }
-                    } else {
-                        line.classList.remove("rotate_pos", "rotate_neg");
-                    }
-                });
+        Array.from(secondLines).forEach(line => {
+            const classList = line.classList;
+            if ( nowValue !== 0 && nowValue < 110 ) {
+                if ( isValueGreaterThenOldValue ) {
+                    classList.remove("rotate_neg");
+                    classList.add("rotate_pos");
+                } else {
+                    classList.remove("rotate_pos");
+                    line.classList.add("rotate_neg");
+                }
+            } else {
+                line.classList.remove("rotate_pos", "rotate_neg");
             }
-        }
+        });
     });
 </script>
 

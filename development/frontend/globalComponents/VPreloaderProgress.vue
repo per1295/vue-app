@@ -4,16 +4,8 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
     import VPreloaderProgressBarVue from "./VPreloaderProgressBar.vue";
-
-    export default defineComponent({
-        name: "VPreloaderProgress",
-        components: {
-            VPreloaderProgressBarVue
-        }
-    });
 </script>
 
 <style lang="scss">

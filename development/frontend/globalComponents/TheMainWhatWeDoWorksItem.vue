@@ -1,71 +1,66 @@
 <template>
-    <div class="main_whatWeDo__works___item"
-    @pointerover="isMobileOrTablet ? undefined : overItem($event)"
-    @pointerout="isMobileOrTablet ? undefined : outItem($event)"
-    @click="isMobileOrTablet ? callSetIsPointerOnDocumentFalse(overItem)($event) : undefined"
+    <div ref="rootElRef" class="main_whatWeDo__works___item"
+    @pointerover="isMobileOrTablet.value ? undefined : overItem($event)"
+    @pointerout="isMobileOrTablet.value ? undefined : outItem($event)"
+    @click="isMobileOrTablet.value ? callSetIsPointerOnDocumentFalse(overItem)($event) : undefined"
     >
         <v-image-vue class="main_whatWeDo__works___item____image" :src="src" :alt="`item_${index}`"/>
         <div class="main_whatWeDo__works___item____backface"
-        @click="setWasImgClicked(true), setNowImageSrc(src)">
+        @click="setImgClickedTrue(), setNowImgSrc(src)">
             Item
         </div>
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent, PropType } from "vue";
-    import { callSetIsPointerOnDocumentFalse, setWasImgClicked, setNowImageSrc } from "../../functions";
-    import VImageVue from "./VImage.vue";
+<script setup lang="ts">
+    import { watch, computed, PropType, ref } from "vue";
+    import { storeToRefs } from "pinia"
+    import useStore from "../../general/stores";
+    import useDownloadImage from "../../general/stores/downloadImage";
     import { isNotComputer } from "../../functions";
+    import { callSetIsPointerOnDocumentFalse } from "../../functions";
 
-    export default defineComponent({
-        name: "TheMainWhatWeDoWorksItem",
-        components: {
-            VImageVue
+    import VImageVue from "./VImage.vue";
+
+    defineProps({
+        src: {
+            type: String as PropType<string>,
+            required: true
         },
-        props: {
-            src: {
-                type: String as PropType<string>,
-                required: true
-            },
-            index: {
-                type: Number as PropType<number>,
-                required: true
-            }
-        },
-        computed: {
-            isMobileOrTablet() {
-                const isMobile = this.$store.state.isMobile;
-                return isMobile || isNotComputer();
-            },
-            isPointerOnDocument() {
-                return this.$store.state.isPointerOnDocument;
-            }
-        },
-        watch: {
-            isPointerOnDocument(nowValue) {
-                if ( !nowValue ) return;
-                let obj = { currentTarget: this.$el } as unknown as PointerEvent;
-                this.outItem(obj);
-            }
-        },
-        methods: {
-            overItem(event: PointerEvent) {
-                const currentTarget = this.$el as HTMLDivElement, target = event.target as HTMLElement,
-                backfaceElement = currentTarget.children[1], addclassName = "main_whatWeDo__works___item____backfaceActive";
-                if ( currentTarget !== target && backfaceElement.classList.contains(addclassName) ) return;
-                backfaceElement.classList.add(addclassName);
-            },
-            outItem(event: PointerEvent) {
-                const currentTarget = this.$el as HTMLDivElement, relatedTarget = event.relatedTarget as HTMLElement,
-                backfaceElement = currentTarget.children[1], addclassName = "main_whatWeDo__works___item____backfaceActive";
-                if ( currentTarget.contains(relatedTarget) ) return;
-                backfaceElement.classList.remove(addclassName);
-            },
-            callSetIsPointerOnDocumentFalse,
-            setWasImgClicked,
-            setNowImageSrc
+        index: {
+            type: Number as PropType<number>,
+            required: true
         }
+    });
+
+    const indeStore = useStore();
+    const { isMobile, isPointerOnDocument } = storeToRefs(indeStore);
+
+    const downloadImageStore = useDownloadImage();
+    const { setImgClickedTrue, setNowImgSrc } = downloadImageStore;
+
+    const isMobileOrTablet = computed(() => isMobile || isNotComputer());
+
+    const rootElRef = ref();
+
+    function overItem(event: PointerEvent) {
+        const currentTarget = rootElRef.value as HTMLDivElement, target = event.target as HTMLElement,
+        backfaceElement = currentTarget.children[1], addclassName = "main_whatWeDo__works___item____backfaceActive";
+        if ( currentTarget !== target && backfaceElement.classList.contains(addclassName) ) return;
+        backfaceElement.classList.add(addclassName);
+    };
+
+    function outItem(event: PointerEvent) {
+        const currentTarget = rootElRef.value as HTMLDivElement, relatedTarget = event.relatedTarget as HTMLElement,
+        backfaceElement = currentTarget.children[1], addclassName = "main_whatWeDo__works___item____backfaceActive";
+        if ( currentTarget.contains(relatedTarget) ) return;
+        backfaceElement.classList.remove(addclassName);
+    };
+
+    watch(isPointerOnDocument, (nowValue) => {
+        if ( !nowValue ) return;
+        let obj = { currentTarget: rootElRef.value } as unknown as PointerEvent;
+        outItem(obj);
     });
 </script>
 

@@ -5,18 +5,9 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
     import TheMainConteinerLeftColumVue from "./TheMainConteinerLeftColum.vue";
     import TheMainConteinerRightColumVue from "./TheMainConteinerRightColum.vue";
-
-    export default defineComponent({
-        name: "TheMainConteiner",
-        components: {
-            TheMainConteinerLeftColumVue,
-            TheMainConteinerRightColumVue
-        }
-    });
 </script>
 
 <style lang="scss">

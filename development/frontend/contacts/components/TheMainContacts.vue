@@ -14,27 +14,17 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { storeToRefs } from "pinia";
+    import useStore from "../../../general/stores";
+
     import VCategoryH3Vue from "../../globalComponents/VCategoryH3.vue";
     import VCategoryPVue from "../../globalComponents/VCategoryP.vue";
     import TheMainContactsBlocksVue from "./TheMainContactsBlocks.vue";
     import VCustomButtonVue from "../../globalComponents/VCustomButton.vue";
 
-    export default defineComponent({
-        name: "TheMainContacts",
-        components: {
-            VCategoryH3Vue,
-            VCategoryPVue,
-            TheMainContactsBlocksVue,
-            VCustomButtonVue
-        },
-        computed: {
-            isMobile() {
-                return this.$store.state.isMobile;
-            }
-        }
-    });
+    const indexStore = useStore();
+    const { isMobile } = storeToRefs(indexStore);
 </script>
 
 <style scoped lang="scss">

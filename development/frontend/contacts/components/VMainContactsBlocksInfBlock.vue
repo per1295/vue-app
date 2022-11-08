@@ -9,18 +9,15 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { CSSProperties, defineComponent, PropType } from "vue";
+<script setup lang="ts">
+    import type { CSSProperties, PropType } from "vue";
 
-    export default defineComponent({
-        name: "VMainContactsBlocksInfBlock",
-        props: {
-            additionalStyle: {
-                type: Object as PropType<CSSProperties>,
-                required: true
-            }
+    defineProps({
+        additionalStyle: {
+            type: Object as PropType<CSSProperties>,
+            required: true
         }
-    })
+    });
 </script>
 
 <style lang="scss">

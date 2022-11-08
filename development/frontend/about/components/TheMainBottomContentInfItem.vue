@@ -5,17 +5,14 @@
     </span>
 </template>
 
-<script lang="ts">
-    import { defineComponent, PropType, CSSProperties } from "vue";
+<script setup lang="ts">
+    import { PropType, CSSProperties } from "vue";
 
-    export default defineComponent({
-        name: "TheMainBottomContentInfItem",
-        props: {
-            additionalStyles: {
-                type: Object as PropType<CSSProperties>
-            }
+    defineProps({
+        additionalStyles: {
+            type: Object as PropType<CSSProperties>
         }
-    })
+    });
 </script>
 
 <style lang="scss">

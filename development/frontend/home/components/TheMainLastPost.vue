@@ -17,32 +17,24 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { storeToRefs } from "pinia";
+    import useStore from "../../../general/stores";
+    import { useRouter } from "vue-router";
+
     import VCategoryH3Vue from "../../globalComponents/VCategoryH3.vue";
     import VCategoryPVue from "../../globalComponents/VCategoryP.vue";
     import TheMainLastPostContentVue from "./TheMainLastPostContent.vue";
     import VCustomButtonVue from "../../globalComponents/VCustomButton.vue";
 
-    export default defineComponent({
-        name: "TheMainLastPost",
-        components: {
-            VCategoryH3Vue,
-            VCategoryPVue,
-            TheMainLastPostContentVue,
-            VCustomButtonVue
-        },
-        computed: {
-            isMobile() {
-                return this.$store.state.isMobile
-            }
-        },
-        methods: {
-            toBlog() {
-                this.$router.push("/blog");
-            }
-        }
-    })
+    const indexStore = useStore();
+    const { isMobile } = storeToRefs(indexStore);
+
+    const router = useRouter();
+
+    function toBlog() {
+        router.push("/blog");
+    }
 </script>
 
 <style lang="scss">

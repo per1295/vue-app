@@ -1,21 +1,18 @@
 <template>
     <span class="blog_conteiner__text">
-        {{ textBlog }}
+        {{ text }}
     </span>
 </template>
 
-<script lang="ts">
-    import { defineComponent, PropType } from "vue";
+<script setup lang="ts">
+    import { PropType } from "vue";
 
-    export default defineComponent({
-        name: "VMainBlogsBlogText",
-        props: {
-            textBlog: {
-                type: String as PropType<string>,
-                required: true
-            }
+    defineProps({
+        text: {
+            type: String as PropType<string>,
+            required: true
         }
-    })
+    });
 </script>
 
 <style lang="scss">

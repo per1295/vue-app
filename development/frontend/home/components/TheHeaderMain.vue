@@ -1,27 +1,25 @@
 <template>
     <h2 class="header_main">
         <span
-        v-html="isNarrowMobile ? NARROW_CONTENT : MAIN_CONTENT"></span>
+        v-html="headerMainHTML"></span>
     </h2>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { computed } from "vue";
+    import { storeToRefs } from "pinia";
+    import useStore from "../../../general/stores";
 
-    export default defineComponent({
-        name: "TheHeaderMain",
-        data() {
-            return {
-                MAIN_CONTENT: "Say <span>Haloa</span> <span class='header_main__portfolio_mobile'>to your Portfolio</span>",
-                NARROW_CONTENT: "Say <span>Haloa</span> to your Portfolio"
-            }
-        },
-        computed: {
-            isNarrowMobile() {
-                return this.$store.state.isNarrowMobile;
-            }
-        }
-    });
+    const indexStore = useStore();
+    const { isNarrowMobile } = storeToRefs(indexStore);
+
+    const headerMainHTML = computed(() => (
+        isNarrowMobile.value
+        ?
+        "Say <span>Haloa</span> to your Portfolio"
+        :
+        "Say <span>Haloa</span> <span class='header_main__portfolio_mobile'>to your Portfolio</span>"
+    ));
 </script>
 
 <style lang="scss">

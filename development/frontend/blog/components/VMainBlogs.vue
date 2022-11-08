@@ -2,70 +2,58 @@
     <div class="main_blogs" :style="additionalStyle" :class="additionalClass">
         <transition-group name="blogs-list" :appear="true">
             <v-main-blogs-blog-vue
-            v-for="blog of blogs"
-            :key="blog.idBlog"
-            :image-blog="blog.imageBlog"
-            :title-blog="blog.titleBlog"
-            :date-blog="blog.dateBlog"
-            :text-blog="blog.textBlog"
+            v-for="blog of filteredBlogs"
+            :key="blog.id"
+            :image="blog.image"
+            :title="blog.title"
+            :date="blog.date"
+            :text="blog.text"
             />
         </transition-group>
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent, TransitionGroup, PropType, CSSProperties } from "vue";
-    import { GET_BLOGS_DATA } from "../../../general/vuex/blog";
+<script setup lang="ts">
+    import { TransitionGroup, computed, PropType, CSSProperties, onMounted } from "vue";
+    import { storeToRefs } from "pinia";
+    import useBlogs from "../../../general/stores/blog/blogs";
+    import useStore from "../../../general/stores";
+
     import VMainBlogsBlogVue from "./VMainBlogsBlog.vue";
 
-    export default defineComponent({
-        name: "VMainBlogs",
-        props: {
-            mobileStartBlog: {
-                type: Number as PropType<number>,
-                required: true
-            },
-            mobileCountBlog: {
-                type: Number as PropType<number>,
-                required: true
-            },
-            isFirst: {
-                type: Boolean as PropType<boolean>,
-                required: true
-            },
-            additionalStyle: {
-                type: Object as PropType<CSSProperties>
-            },
-            additionalClass: {
-                type: String as PropType<string>
-            }
+    const props = defineProps({
+        maxCount: {
+            type: Number as PropType<number>
         },
-        computed: {
-            blogs() {
-                const blogs = this.$store.state.blog.blogs;
-                const isMobile = this.$store.state.isMobile;
-                const mobileStartBlog = this.mobileStartBlog;
-                const mobileCountBlog = this.mobileCountBlog;
-                const mobileEndBlog = mobileStartBlog + mobileCountBlog;
-
-                if ( isMobile ) return blogs?.filter((_item, index) => {
-                    return index >= mobileStartBlog && index < mobileEndBlog;
-                });
-
-                return blogs;
-            }
+        startBlogIndex: {
+            type: Number as PropType<number>
         },
-        mounted() {
-            if ( !this.isFirst ) return;
-            this.$store.dispatch({
-                type: GET_BLOGS_DATA
-            });
+        additionalStyle: {
+            type: Object as PropType<CSSProperties>,
         },
-        components: {
-            VMainBlogsBlogVue,
-            TransitionGroup
+        additionalClass: {
+            type: String
         }
-    })
+    });
+
+    const blogsStore = useBlogs();
+    const { getBlogs } = blogsStore;
+    const { blogs } = storeToRefs(blogsStore);
+
+    const indexStore = useStore();
+    const { isMobile } = storeToRefs(indexStore);
+
+    const filteredBlogs = computed(() => {
+        if ( isMobile.value && ( props.maxCount || props.startBlogIndex ) ) {
+            return blogs.value.slice(props.startBlogIndex ?? 0, props.maxCount);
+        }
+        return blogs.value;
+    });
+
+    onMounted(() => {
+        if ( isMobile.value && props.startBlogIndex ) return getBlogs(props.startBlogIndex);
+        if ( blogs.value.length === 0 ) getBlogs();
+    });
 </script>
 
 <style lang="scss">

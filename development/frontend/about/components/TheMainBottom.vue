@@ -9,31 +9,17 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { storeToRefs } from "pinia";
+    import useStore from "../../../general/stores";
+
     import VImageVue from "../../globalComponents/VImage.vue";
     import rectangle_497 from "../images/rectangle_497.png";
     import rectangle_287 from "../mobileImages/rectangle_287.png";
     import TheMainBottomContentVue from "./TheMainBottomContent.vue";
 
-    export default defineComponent({
-        name: "TheMainBottom",
-        components: {
-            VImageVue,
-            TheMainBottomContentVue
-        },
-        data() {
-            return {
-                rectangle_497,
-                rectangle_287
-            }
-        },
-        computed: {
-            isMobile() {
-                return this.$store.state.isMobile;
-            }
-        }
-    });
+    const indexStore = useStore();
+    const { isMobile } = storeToRefs(indexStore);
 </script>
 
 <style lang="scss">

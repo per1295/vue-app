@@ -42,7 +42,7 @@ const frontendConfig = (env) => {
                             loader: "ts-loader",
                             options: {
                                 appendTsSuffixTo: [ '\\.vue$' ],
-                                ignoreDiagnostics: [ 2345 ]
+                                ignoreDiagnostics: [ 2345, 7006, 2571 ]
                             }
                         }
                     ],
@@ -106,7 +106,7 @@ const frontendConfig = (env) => {
             }),
             new DefinePlugin({
                 __VUE_OPTIONS_API__: true,
-                __VUE_PROD_DEVTOOLS__: true
+                __VUE_PROD_DEVTOOLS__: false
             }),
             new CopyPlugin({
                 patterns: [
@@ -153,7 +153,7 @@ const serverConfig = (env) => {
                             loader: "ts-loader",
                             options: {
                                 appendTsSuffixTo: [ '\\.vue$' ],
-                                ignoreDiagnostics: [ 2345, 7006, 2571 ]
+                                ignoreDiagnostics: [ 2345, 7006, 2571, 2322, 7015 ]
                             }
                         }
                     ],
@@ -189,6 +189,14 @@ const serverConfig = (env) => {
                         filename: "images/[name][ext]"
                     },
                     exclude: /[\\/]node_modules[\\/]/
+                },
+                {
+                    test: /\.json$/,
+                    type: "asset/source",
+                    generator: {
+                        filename: "mongodb/[name][ext]"
+                    },
+                    exclude: /[\\/]node_modules[\\/]/
                 }
             ]
         },
@@ -200,18 +208,13 @@ const serverConfig = (env) => {
                     express: {
                         name: "express",
                         filename: "[name].bundle.js",
-                        test: /[\\/]node_modules[\\/]express[\\/]/,
+                        test: /[\\/]node_modules[\\/]express[\\/]/
                     },
                     mongodb: {
                         name: "mongodb",
                         filename: "[name].bundle.js",
-                        test: /[\\/]node_modules[\\/]mongodb([\-\w]+)?[\\/]/
+                        test: /[\\/]node_modules[\\/]mongodb|mongoose[\\/]/
                     },
-                    mongoose: {
-                        name: "mongoose",
-                        filename: "[name].bundle.js",
-                        test: /[\\/]node_modules[\\/]mongoose[\\/]/
-                    }
                 }
             }
         },
@@ -220,7 +223,7 @@ const serverConfig = (env) => {
             new CleanWebpackPlugin(),
             new DefinePlugin({
                 __VUE_OPTIONS_API__: true,
-                __VUE_PROD_DEVTOOLS__: true
+                __VUE_PROD_DEVTOOLS__: false
             }),
         ],
         target: "node",

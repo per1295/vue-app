@@ -2,13 +2,7 @@
     <div class="preloader_progress__bar"></div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
-
-    export default defineComponent({
-        name: "ThePreloaderProgressBar"
-    })
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss">
     @keyframes progressBar {

@@ -1,16 +1,9 @@
 <template>
-    <div id="app">
+    <div id="app" translate="no">
         <app/>
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
-    import App from "./app.vue";
-
-    export default defineComponent({
-        components: {
-            App
-        }
-    });
+<script setup lang="ts">
+    import App from "./App.vue";
 </script>

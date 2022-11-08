@@ -4,13 +4,7 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
-
-    export default defineComponent({
-        name: "VMainWhoWeAreSecondPeopleItemConteiner",
-    });
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss">
     .main_whoWeAreSecond__people___item____conteiner {

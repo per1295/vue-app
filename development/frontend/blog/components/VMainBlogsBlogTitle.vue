@@ -1,21 +1,18 @@
 <template>
     <span class="blog_conteiner__title">
-        {{ titleBlog }}
+        {{ title }}
     </span>
 </template>
 
-<script lang="ts">
-    import { defineComponent, PropType } from "vue";
+<script setup lang="ts">
+    import { PropType } from "vue";
 
-    export default defineComponent({
-        name: "VMainBlogsBlogTitle",
-        props: {
-            titleBlog: {
-                type: String as PropType<string>,
-                required: true
-            }
+    defineProps({
+        title: {
+            type: String as PropType<string>,
+            required: true
         }
-    })
+    });
 </script>
 
 <style lang="scss">

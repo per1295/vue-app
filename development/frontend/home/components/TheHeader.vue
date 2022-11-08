@@ -3,30 +3,21 @@
         <the-header-top-vue/>
         <the-header-main-vue/>
         <keep-alive>
-            <component :is="isMobile ? 'TheHeaderArrowButtonMobileVue' : null" />
+            <component :is="isMobile ? TheHeaderArrowButtonMobileVue : null" />
         </keep-alive>
     </header>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { storeToRefs } from "pinia";
+    import useStore from "../../../general/stores";
+    
     import TheHeaderTopVue from "../../globalComponents/TheHeaderWithArrowTop.vue";
     import TheHeaderMainVue from "./TheHeaderMain.vue";
     import TheHeaderArrowButtonMobileVue from "../mobileComponents/TheHeaderArrowButtonMobile.vue";
 
-    export default defineComponent({
-        name: "TheHeader",
-        components: {
-            TheHeaderTopVue,
-            TheHeaderMainVue,
-            TheHeaderArrowButtonMobileVue
-        },
-        computed: {
-            isMobile() {
-                return this.$store.state.isMobile;
-            }
-        }
-    });
+    const indexStore = useStore();
+    const { isMobile } = storeToRefs(indexStore);
 </script>
 
 <style lang="scss" scoped>

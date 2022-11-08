@@ -1,5 +1,5 @@
 <template>
-    <div class="header_top__menu" @click="setIsMenuOpen(true), setYGrabPercent(0)">
+    <div class="header_top__menu" @click="openMenu(), setYGrabPercent(0)">
         Menu
         <button class="header_top__menu___button">
             <img src="../images/cd_menu_icon_13.png" alt="button">
@@ -7,17 +7,11 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
-    import { setIsMenuOpen, setYGrabPercent } from "../../../functions/index";
+<script setup lang="ts">
+    import useMenuNavbar from '../../../general/stores/menuNavbar';
 
-    export default defineComponent({
-        name: "TheHeaderTopButton",
-        methods: {
-            setIsMenuOpen,
-            setYGrabPercent
-        }
-    });
+    const menuNavbarStore = useMenuNavbar();
+    const { openMenu, setYGrabPercent } = menuNavbarStore;
 </script>
 
 <style lang="scss">

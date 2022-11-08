@@ -4,19 +4,16 @@
     </p>
 </template>
 
-<script lang="ts">
-    import { defineComponent, PropType, CSSProperties } from "vue";
-    
-    export default defineComponent({
-        name: "VCategoryP",
-        props: {
-            title: {
-                type: String as PropType<string>,
-                required: true
-            },
-            additionalStyles: {
-                type: Object as PropType<CSSProperties>
-            }
+<script setup lang="ts">
+    import { PropType, CSSProperties } from "vue";
+
+    defineProps({
+        title: {
+            type: String as PropType<string>,
+            required: true
+        },
+        additionalStyles: {
+            type: Object as PropType<CSSProperties>
         }
     });
 </script>

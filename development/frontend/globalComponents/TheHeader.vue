@@ -4,37 +4,36 @@
     </header>
 </template>
 
-<script lang="ts">
-    import { defineComponent, PropType } from "vue";
+<script setup lang="ts">
+    import { computed, PropType } from "vue";
+    import { storeToRefs } from "pinia";
+    import useStore from "../../general/stores";
+
     import TheHeaderTopVue from "./TheHeaderWithArrowTop.vue";
 
-    export default defineComponent({
-        name: "TheHeader",
-        props: {
-            backgroundImage: {
-                type: String as PropType<string>,
-                required: true
-            },
-            mobileBackgroundImage: {
-                type: String as PropType<string>,
-                required: true
-            }
+    const props = defineProps({
+        backgroundImage: {
+            type: String as PropType<string>,
+            required: true
         },
-        components: {
-            TheHeaderTopVue
-        },
-        computed: {
-            nowImageObj() {
-                const isMobile = this.$store.state.isMobile;
-                let nowImage: string;
-                if ( isMobile ) nowImage = this.mobileBackgroundImage;
-                else nowImage = this.backgroundImage;
-                return {
-                    backgroundImage: `url(${nowImage})`
-                }
-            }
+        mobileBackgroundImage: {
+            type: String as PropType<string>,
+            required: true
         }
-    })
+    });
+
+    const indexStore = useStore();
+    const { isMobile } = storeToRefs(indexStore);
+
+    const nowImageObj = computed(() => {
+        let nowImage: string;
+        if ( isMobile.value ) nowImage = props.mobileBackgroundImage;
+        else nowImage = props.backgroundImage;
+        
+        return {
+            backgroundImage: `url(${nowImage})`
+        }
+    });
 </script>
 
 <style lang="scss" scoped>

@@ -5,18 +5,9 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
     import TheMainBottomContentH3Vue from "./TheMainBottomContentH3.vue";
     import TheMainBottomContentInfVue from "./TheMainBottomContentInf.vue";
-
-    export default defineComponent({
-        name: "TheMainBottomContent",
-        components: {
-            TheMainBottomContentH3Vue,
-            TheMainBottomContentInfVue
-        }
-    });
 </script>
 
 <style lang="scss">

@@ -6,20 +6,10 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
     import VCategoryH3Vue from "../../globalComponents/VCategoryH3.vue";
     import VCategoryPVue from "../../globalComponents/VCategoryP.vue";
     import TheMainContactUsConteinerVue from "./TheMainContactUsConteiner.vue";
-
-    export default defineComponent({
-        name: "TheMainContactUs",
-        components: {
-            VCategoryH3Vue,
-            VCategoryPVue,
-            TheMainContactUsConteinerVue
-        }
-    })
 </script>
 
 <style lang="scss">

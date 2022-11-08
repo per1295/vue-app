@@ -4,16 +4,8 @@
     </main>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
     import TheMainWorksVue from "./TheMainWorks.vue";
-
-    export default defineComponent({
-        name: "TheMain",
-        components: {
-            TheMainWorksVue
-        }
-    })
 </script>
 
 <style lang="scss" scoped>

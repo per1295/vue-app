@@ -4,27 +4,23 @@
     </span>
 </template>
 
-<script lang="ts">
-    import { defineComponent, PropType } from "vue";
+<script setup lang="ts">
+    import { computed, PropType } from "vue";
     import { getMonthName } from "../../../functions";
 
-    export default defineComponent({
-        name: "VMainBlogsBlogDate",
-        props: {
-            dateBlog: {
-                type: String as PropType<string>,
-                required: true
-            }
-        },
-        computed: {
-            formattedDate() {
-                const date = this.dateBlog.split(".");
-                const month = date[1];
-                const formattedMonth = getMonthName(+month);
-                return `${date[0]} ${formattedMonth} ${date[2]}`;
-            }
+    const props = defineProps({
+        date: {
+            type: String as PropType<string>,
+            required: true
         }
-    })
+    });
+
+    const formattedDate = computed(() => {
+        const date = props.date.split(".");
+        const month = date[1];
+        const formattedMonth = getMonthName(+month);
+        return `${date[0]} ${formattedMonth} ${date[2]}`;
+    });
 </script>
 
 <style lang="scss">

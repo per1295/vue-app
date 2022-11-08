@@ -1,6 +1,6 @@
 <template>
     <component
-    :is="isMobile ? 'TheHeaderWithArrowTopVue' : 'TheHeaderVue'"
+    :is="isMobile ? TheHeaderWithArrowTopVue : TheHeaderVue"
     :background-image="backgroundImage"
     :mobile-background-image="''"
     />
@@ -11,8 +11,11 @@
     <the-download-vue/>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { onMounted } from "vue";
+    import { storeToRefs } from "pinia";
+    import useStore from "../../general/stores";
+
     import TheHeaderVue from "../globalComponents/TheHeader.vue";
     import TheHeaderWithArrowTopVue from "../globalComponents/TheHeaderWithArrowTop.vue";
     import TheMainVue from "./components/TheMain.vue";
@@ -21,27 +24,8 @@
 
     import backgroundImage from "./images/cd_intro_work_page_background_2_contacts.png";
 
-    export default defineComponent({
-        name: "Contacts",
-        data() {
-            return {
-                backgroundImage
-            }
-        },
-        components: {
-            TheHeaderVue,
-            TheHeaderWithArrowTopVue,
-            TheMainVue,
-            TheFooterVue,
-            TheDownloadVue
-        },
-        computed: {
-            isMobile() {
-                return this.$store.state.isMobile;
-            }
-        },
-        mounted() {
-            document.title = "Contacts";
-        }
-    });
+    const indexStore = useStore();
+    const { isMobile } = storeToRefs(indexStore);
+
+    onMounted(() => document.title = "Contacts");
 </script>

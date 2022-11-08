@@ -1,43 +1,37 @@
 <template>
-    <div @pointerdown.stop="setWasImgClicked(true)" class="download">
+    <div ref="rootElRef" @pointerdown.stop="setImgClickedTrue" class="download">
         <the-download-text-vue/>
         <the-download-buttons-vue/>
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { watch, ref } from "vue";
+    import { storeToRefs } from "pinia";
+    import useDownloadImage from "../../general/stores/downloadImage";
+    import useStore from "../../general/stores";
+
     import TheDownloadTextVue from "./TheDownloadText.vue";
     import TheDownloadButtonsVue from "./TheDownloadButtons.vue";
-    import { setWasImgClicked, setIsPointerOnDocument } from "../../functions/index";
 
-    export default defineComponent({
-        name: "TheDownload",
-        components: {
-            TheDownloadTextVue,
-            TheDownloadButtonsVue
-        },
-        computed: {
-            wasImgClicked() {
-                return this.$store.state.wasImgClicked;
-            }
-        },
-        watch: {
-            wasImgClicked(nowValue) {
-                const downloadElement = this.$el as HTMLDivElement;
-                if ( nowValue ) {
-                    downloadElement.classList.add("download_active");
-                    this.setIsPointerOnDocument(false);
-                } else {
-                    downloadElement.classList.remove("download_active");
-                    this.setIsPointerOnDocument(true);
-                };
-            }
-        },
-        methods: {
-            setWasImgClicked,
-            setIsPointerOnDocument
-        }
+    const downloadImageStore = useDownloadImage();
+    const { wasImgClicked } = storeToRefs(downloadImageStore);
+    const { setImgClickedTrue } = downloadImageStore;
+
+    const indexStore = useStore();
+    const { setPointerOnDocumentTrue, setPointerOnDocumentFalse } = indexStore;
+
+    const rootElRef = ref();
+
+    watch(wasImgClicked, (nowValue) => {
+        const downloadElement = rootElRef.value as HTMLDivElement;
+        if ( nowValue ) {
+            downloadElement.classList.add("download_active");
+            setPointerOnDocumentFalse();
+        } else {
+            downloadElement.classList.remove("download_active");
+            setPointerOnDocumentTrue();
+        };
     });
 </script>
 

@@ -5,23 +5,12 @@
     <the-download-vue/>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { onMounted } from "vue";
     import TheHeaderVue from "./components/TheHeader.vue";
     import TheMainVue from "./components/TheMain.vue";
     import TheFooterVue from "../globalComponents/TheFooter.vue";
     import TheDownloadVue from "../globalComponents/TheDownload.vue";
 
-    export default defineComponent({
-        name: "Home",
-        components: {
-            TheHeaderVue,
-            TheMainVue,
-            TheFooterVue,
-            TheDownloadVue
-        },
-        mounted() {
-            document.title = "Home";
-        }
-    });
+    onMounted(() => document.title = "Home");
 </script>

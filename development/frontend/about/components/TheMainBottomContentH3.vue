@@ -4,13 +4,7 @@
     </h3>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
-
-    export default defineComponent({
-        name: "TheMainBottomContentH3"
-    });
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss">
     .main_bottom__content___h3 {

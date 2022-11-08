@@ -12,55 +12,44 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent, PropType, CSSProperties } from "vue";
+<script setup lang="ts">
+    import { computed, PropType, CSSProperties } from "vue";
+    import { storeToRefs } from "pinia";
+    import useStore from "../../../general/stores";
+
     import VCategoryH3Vue from "../../globalComponents/VCategoryH3.vue";
     import VMainWhoWeAreSecondPeopleItemImgVue from "./VMainWhoWeAreSecondPeopleItemImg.vue";
     import VMainWhoWeAreSecondPeopleItemConteinerVue from "./VMainWhoWeAreSecondPeopleItemConteiner.vue";
     import VMainWhoWeAreSecondPeopleItemConteinerFullnameVue from "./VMainWhoWeAreSecondPeopleItemConteinerFullname.vue";
     import VMainWhoWeAreSecondPeopleItemConteinerDescriptionVue from "./VMainWhoWeAreSecondPeopleItemConteinerDescription.vue";
 
-    export default defineComponent({
-        name: "VMainWhoWeAreSecondPeopleItem",
-        components: {
-            VCategoryH3Vue,
-            VMainWhoWeAreSecondPeopleItemImgVue,
-            VMainWhoWeAreSecondPeopleItemConteinerVue,
-            VMainWhoWeAreSecondPeopleItemConteinerFullnameVue,
-            VMainWhoWeAreSecondPeopleItemConteinerDescriptionVue
+    defineProps({
+        src: {
+            type: String as PropType<string>,
+            required: true
         },
-        props: {
-            src: {
-                type: String as PropType<string>,
-                required: true
-            },
-            position: {
-                type: String as PropType<string>,
-                required: true
-            },
-            fullname: {
-                type: String as PropType<string>,
-                required: true
-            },
-            addtionalStyles: {
-                type: Object as PropType<CSSProperties>
-            }
+        position: {
+            type: String as PropType<string>,
+            required: true
         },
-        computed: {
-            isMobile() {
-                return this.$store.state.isMobile;
-            },
-            additionalStylesH3() {
-                const additionalStylesH3: CSSProperties = {
-                    fontSize: "29px",
-                    fontWeight: 600
-                };
-                return this.isMobile ? additionalStylesH3 : {};
-            },
-            isNarrowMobile() {
-                return this.$store.state.isNarrowMobile;
-            }
+        fullname: {
+            type: String as PropType<string>,
+            required: true
+        },
+        addtionalStyles: {
+            type: Object as PropType<CSSProperties>
         }
+    });
+
+    const indexStore = useStore();
+    const { isMobile, isNarrowMobile } = storeToRefs(indexStore);
+
+    const additionalStylesH3 = computed(() => {
+        const additionalStylesH3: CSSProperties = {
+            fontSize: "29px",
+            fontWeight: 600
+        };
+        return isMobile.value ? additionalStylesH3 : {};
     });
 </script>
 

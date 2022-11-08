@@ -1,56 +1,72 @@
 <template>
-    <div class="navLinks" @click="isMobile ? undefined : setIsMenuOpen(false)">
+    <div
+    ref="rootElRef"
+    :class="{ navLinks: true, navLinksMobile: isMobile, navLinksOther: !isMobile }"
+    @click="isMobile ? undefined : closeMenu()"
+    >
         <the-nav-links-colum-vue/>
         <keep-alive>
-            <component :is="isMobile ? 'TheNavLinksGrabVue' : undefined"/>
+            <component :is="isMobile ? TheNavLinksGrabVue : undefined"/>
         </keep-alive>
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { watch, ref } from "vue";
+    import { storeToRefs } from "pinia";
+    import useStore from "../../general/stores";
+    import useMenuNavbar from "../../general/stores/menuNavbar";
+
     import TheNavLinksColumVue from "./TheNavLinksColum.vue";
-    import { setIsMenuOpen } from "../../functions/index";
     import TheNavLinksGrabVue from "./TheNavLinksGrab.vue";
 
-    export default defineComponent({
-        name: "TheNavLinks",
-        components: {
-            TheNavLinksColumVue,
-            TheNavLinksGrabVue
-        },
-        methods: {
-            setIsMenuOpen
-        },
-        computed: {
-            isMobile() {
-                return this.$store.state.isMobile;
-            },
-            yGrabPercent() {
-                return this.$store.state.yGrabPercent;
-            },
-            wasDownOnGrab() {
-                return this.$store.state.wasDownOnGrab;
-            }
-        },
-        watch: {
-            yGrabPercent(value, oldValue) {
-                const navLinksElement = this.$el as HTMLDivElement;
+    const rootElRef = ref();
 
-                navLinksElement.animate([
-                    {
-                        transform: `translateY(-${oldValue}%)`
-                    },
-                    {
-                        transform: `translateY(-${value}%)`
-                    }
-                ], {
-                    duration: !this.wasDownOnGrab ? 300 : 1,
-                    fill: "forwards",
-                    easing: "linear"
-                });
-            }
+    const indexStore = useStore();
+    const { isMobile } = storeToRefs(indexStore);
+
+    const menuNavbarStore = useMenuNavbar();
+    const { yGrabPercent, isMenuOpen, wasDownOnGrab } = storeToRefs(menuNavbarStore);
+    const { closeMenu, setYGrabPercent } = menuNavbarStore;
+
+    watch([ yGrabPercent, isMobile ], (nowValues, oldValues) => {
+        const [ percentValue, mobileValue ] = nowValues;
+        const [ _oldPercentValue, oldMobileValue ] = oldValues;
+
+        if ( !mobileValue ) return;
+
+        const navLinksElement = rootElRef.value as HTMLDivElement;
+        
+        if ( wasDownOnGrab.value || mobileValue !== oldMobileValue ) navLinksElement.style.transition = "none";
+        else navLinksElement.style.removeProperty("transition");
+
+        navLinksElement.style.transform = `translateY(-${percentValue}%)`;
+    });
+
+    watch([ isMenuOpen, isMobile ], (nowValues, oldValues) => {
+        const [ menuValue, mobileValue ] = nowValues;
+        const [ _oldMenuValue, oldMobileValue ] = oldValues;
+
+        if ( !mobileValue ) {
+            const navLinksElement = rootElRef.value as HTMLDivElement;
+
+            if ( mobileValue !== oldMobileValue ) navLinksElement.style.transition = "none";
+            else navLinksElement.style.removeProperty("transition");
+
+            if ( menuValue ) navLinksElement.style.transform = "translateX(0)";
+            else navLinksElement.style.removeProperty("transform");
+
+            return;
         }
+
+        if ( menuValue ) setYGrabPercent(0);
+        else setYGrabPercent(110);
+    });
+
+    watch(wasDownOnGrab, nowValue => {
+        if ( nowValue ) return;
+        if ( yGrabPercent.value >= 10 ) closeMenu();
+        else setYGrabPercent(0); 
     });
 </script>
 
@@ -60,10 +76,19 @@
         z-index: 99;
         height: 100%;
         width: 100%;
+        transition: transform .3s linear;
         background: rgba(36, 47, 53, .7);
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
+    }
+
+    .navLinksMobile {
+        transform: translateY(-110%);
+    }
+
+    .navLinksOther {
+        transform: translateX(-100%);
     }
 </style>

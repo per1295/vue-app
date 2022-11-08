@@ -8,24 +8,12 @@
     </main>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
     import TheMainWhoWeAreVue from "./TheMainWhoWeAre.vue";
     import TheMainWhatWeDoVue from "./TheMainWhatWeDo.vue";
     import TheMainWhoWeAreSecondVue from "./TheMainWhoWeAreSecond.vue";
     import TheMainLastPostVue from "./TheMainLastPost.vue";
     import TheMainContactUsVue from "./TheMainContactUs.vue";
-
-    export default defineComponent({
-        name: "TheMain",
-        components: {
-            TheMainWhoWeAreVue,
-            TheMainWhatWeDoVue,
-            TheMainWhoWeAreSecondVue,
-            TheMainLastPostVue,
-            TheMainContactUsVue
-        }
-    });
 </script>
 
 <style lang="scss" scoped>

@@ -11,7 +11,7 @@ const Project = () => import("../frontend/project/index.vue");
 const Contacts = () => import("../frontend/contacts/index.vue");
 const Blog = () => import("../frontend/blog/index.vue");
 
-import { closeMobileMenu, scrollToTop } from "../functions";
+import { resetMenu, scrollToTop } from "../functions";
 
 const routes: RouteRecordRaw[] = [
     {
@@ -75,7 +75,7 @@ export default function() {
     });
 
     router.afterEach(() => {
-        closeMobileMenu();
+        resetMenu();
         scrollToTop();
     });
 

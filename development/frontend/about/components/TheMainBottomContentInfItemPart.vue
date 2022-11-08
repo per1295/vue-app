@@ -4,13 +4,7 @@
     </span>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
-
-    export default defineComponent({
-        name: "TheMainBottomContentInfItemPart"
-    })
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss">
     .main_bottom__content___item____part {

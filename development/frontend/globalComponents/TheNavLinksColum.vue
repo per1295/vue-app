@@ -5,42 +5,30 @@
         :to="item"
         class="navLinks_colum__link"
         active-class="navLinks_colum__link_active"
-        @pointerenter="new RegExp(`${item}$`, 'i').test($route.path) ? undefined : pointerEnter($event)"
-        @pointerleave="new RegExp(`${item}$`, 'i').test($route.path) ? undefined : pointerLeave($event)"
+        @pointerenter="new RegExp(`${item}$`, 'i').test(route.path) ? undefined : pointerEnter($event)"
+        @pointerleave="new RegExp(`${item}$`, 'i').test(route.path) ? undefined : pointerLeave($event)"
         >
             {{ item }}
         </router-link>
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { useRoute } from 'vue-router';
 
-    export default defineComponent({
-        name: "TheNavLinksColum",
-        data() {
-            return {
-                LIST_NAV_LINKS: [
-                    "home",
-                    "about",
-                    "work",
-                    "project",
-                    "contacts",
-                    "blog"
-                ]
-            }
-        },
-        methods: {
-            pointerEnter<TypeEvent extends Event>(event: TypeEvent) {
-                const aElement = event.currentTarget as HTMLAnchorElement;
-                aElement.classList.add("navLinks_colum__link_hover");
-            },
-            pointerLeave<TypeEvent extends Event>(event: TypeEvent) {
-                const aElement = event.currentTarget as HTMLAnchorElement;
-                aElement.classList.remove("navLinks_colum__link_hover");
-            }
-        }
-    });
+    const route = useRoute();
+
+    const LIST_NAV_LINKS = [ "home", "about", "work", "project", "contacts", "blog" ];
+
+    function pointerEnter<TypeEvent extends Event>(event: TypeEvent) {
+        const aElement = event.currentTarget as HTMLAnchorElement;
+        aElement.classList.add("navLinks_colum__link_hover");
+    };
+
+    function pointerLeave<TypeEvent extends Event>(event: TypeEvent) {
+        const aElement = event.currentTarget as HTMLAnchorElement;
+        aElement.classList.remove("navLinks_colum__link_hover");
+    };
 </script>
 
 <style lang="scss">

@@ -10,8 +10,10 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { storeToRefs } from "pinia";
+    import useStore from "../../../general/stores";
+
     import VMainWhoWeAreSecondPeopleItemVue from "./VMainWhoWeAreSecondPeopleItem.vue";
 
     import man_1 from "../images/man_1.png";
@@ -22,41 +24,13 @@
     import man_2_mobile from "../mobileImages/img_131.png";
     import man_3_mobile from "../mobileImages/img_141.png";
 
-    export default defineComponent({
-        name: "TheMainWhoWeAreSecondPeople",
-        components: {
-            VMainWhoWeAreSecondPeopleItemVue
-        },
-        data() {
-            return {
-                SRC_ITEMS: [
-                    man_1,
-                    man_2,
-                    man_3
-                ],
-                SRC_ITEMS_MOBILE: [
-                    man_1_mobile,
-                    man_2_mobile,
-                    man_3_mobile
-                ],
-                POSITION_ITEMS: [
-                    "ceo",
-                    "Designer",
-                    "Developer"
-                ],
-                FULLNAME_ITEMS: [
-                    "Tobias Schneider",
-                    "Jack Knife",
-                    "Ricki Hall"
-                ]
-            }
-        },
-        computed: {
-            isMobile() {
-                return this.$store.state.isMobile
-            }
-        }
-    })
+    const SRC_ITEMS = [ man_1, man_2, man_3 ];
+    const SRC_ITEMS_MOBILE = [ man_1_mobile, man_2_mobile, man_3_mobile ];
+    const POSITION_ITEMS = [ "ceo", "Designer", "Developer" ];
+    const FULLNAME_ITEMS = [ "Tobias Schneider", "Jack Knife", "Ricki Hall" ];
+
+    const indexStore = useStore();
+    const { isMobile } = storeToRefs(indexStore);
 </script>
 
 <style lang="scss">

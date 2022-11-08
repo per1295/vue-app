@@ -6,25 +6,21 @@
     </p>
 </template>
 
-<script lang="ts">
-    import { defineComponent, PropType, CSSProperties } from "vue";
+<script setup lang="ts">
+    import { PropType, CSSProperties, computed } from "vue";
+    import { storeToRefs } from "pinia";
+    import useStore from "../../general/stores";
 
-    export default defineComponent({
-        name: "VCategoryDescription",
-        props: {
-            additionalStyles: {
-                type: Object as PropType<CSSProperties>
-            }
-        },
-        computed: {
-            isMobile() {
-                return this.$store.state.isMobile;
-            },
-            BR_MOBILE_HTML() {
-                return this.$store.getters.BR_MOBILE_HTML;
-            }
+    defineProps({
+        additionalStyles: {
+            type: Object as PropType<CSSProperties>
         }
     });
+
+    const indexStore = useStore();
+    const { isMobile } = storeToRefs(indexStore);
+
+    const BR_MOBILE_HTML = computed(() => isMobile.value ? "<br>" : "");
 </script>
 
 <style lang="scss">

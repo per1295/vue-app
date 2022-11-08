@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-interface LastPost {
+export interface LastPost {
     imgForComputer: string;
     imgForMobile: string;
     date: string;
@@ -15,42 +15,41 @@ const lastPostSchema = new Schema<LastPost>({
     title: String,
     content: String
 }, {
-    collection: "posts",
-    autoIndex: false
+    collection: "posts"
 });
 
 export const LastPostModel = model("post", lastPostSchema);
 
-interface InfPost {
+export interface InfPost {
+    id: number;
     title: string;
 }
 
 const infPostSchema = new Schema<InfPost>({
+    id: Number,
     title: String
 }, {
-    collection: "inf_posts",
-    autoIndex: false
+    collection: "inf_posts"
 });
 
 export const InfPostModel = model("inf_post", infPostSchema);
 
-interface Blog {
-    idBlog: number;
-    imageBlog: string;
-    titleBlog: string;
-    dateBlog: string;
-    textBlog: string;
+export interface Blog {
+    id: number;
+    image: string;
+    title: string;
+    date: string;
+    text: string;
 }
 
 const blogSchema = new Schema<Blog>({
-    idBlog: Number,
-    imageBlog: String,
-    titleBlog: String,
-    dateBlog: String,
-    textBlog: String
+    id: Number,
+    image: String,
+    title: String,
+    date: String,
+    text: String
 }, {
-    collection: "blogs",
-    autoIndex: false
+    collection: "blogs"
 });
 
 export const BlogModel = model("blog", blogSchema);

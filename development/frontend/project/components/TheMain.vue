@@ -1,27 +1,19 @@
 <template>
    <main>
        <the-main-conteiner-vue/>
-       <component :is="isMobile ? null : 'TheMainButtonsVue'"/>
+       <component :is="isMobile ? null : TheMainButtonsVue"/>
    </main> 
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { storeToRefs } from "pinia";
+    import useStore from "../../../general/stores";
+
     import TheMainConteinerVue from "./TheMainConteiner.vue";
     import TheMainButtonsVue from "./TheMainButtons.vue";
 
-    export default defineComponent({
-        name: "TheMain",
-        components: {
-            TheMainConteinerVue,
-            TheMainButtonsVue
-        },
-        computed: {
-            isMobile() {
-                return this.$store.state.isMobile;
-            }
-        }
-    });
+    const indexStore = useStore();
+    const { isMobile } = storeToRefs(indexStore);
 </script>
 
 <style scoped lang="scss">

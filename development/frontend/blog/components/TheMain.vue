@@ -2,11 +2,7 @@
     <main>
         <div class="main_conteiner">
             <div class="main_conteiner__wrap" :class="mobileAfterBlockAppear">
-                <v-main-blogs-vue
-                :mobile-start-blog="0"
-                :mobile-count-blog="2"
-                :is-first="true"
-                />
+                <v-main-blogs-vue :max-count="isMobile ? 2 : undefined"/>
                 <the-main-inf-vue/>
             </div>
             <the-after-blogs-vue/>
@@ -14,34 +10,32 @@
     </main>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { computed } from "vue";
+    import { storeToRefs } from "pinia";
+    import useStore from "../../../general/stores";
+    import useBlogs from "../../../general/stores/blog/blogs";
+
     import TheMainInfVue from "./TheMainInf.vue";
     import VMainBlogsVue from "./VMainBlogs.vue";
     import TheAfterBlogsVue from "./TheAfterBlogs.vue";
 
-    export default defineComponent({
-        name: "TheMain",
-        computed: {
-            mobileAfterBlockAppear() {
-                const isMobile = this.$store.state.isMobile;
-                const blogs = this.$store.state.blog.blogs;
-                if ( blogs === null ) return undefined;
-                const isAfterBlogAppear = blogs.length > 2;
+    const indexStore = useStore();
+    const { isMobile } = storeToRefs(indexStore);
 
-                if ( isMobile && isAfterBlogAppear ) {
-                    return "afterBlogAppear";
-                }
+    const blogsStore = useBlogs();
+    const { blogs } = storeToRefs(blogsStore);
 
-                return undefined;
-            }
-        },
-        components: {
-            VMainBlogsVue,
-            TheMainInfVue,
-            TheAfterBlogsVue
+    const mobileAfterBlockAppear = computed(() => {
+        if ( blogs.value === null ) return undefined;
+        const isAfterBlogAppear = blogs.value.length > 2;
+
+        if ( isMobile.value && isAfterBlogAppear ) {
+            return "afterBlogAppear";
         }
-    })
+
+        return undefined;
+    });
 </script>
 
 <style scoped lang="scss">

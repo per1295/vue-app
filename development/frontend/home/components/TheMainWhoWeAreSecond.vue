@@ -13,30 +13,22 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script setup lang="ts">
+    import { computed } from "vue";
+    import { storeToRefs } from "pinia";
+    import useStore from "../../../general/stores";
+
     import VCategoryH3Vue from "../../globalComponents/VCategoryH3.vue";
     import VCategoryPVue from "../../globalComponents/VCategoryP.vue";
     import VCategoryDescriptionVue from "../../globalComponents/VCategoryDescription.vue";
     import TheMainWhoWeAreSecondPeopleVue from "./TheMainWhoWeAreSecondPeople.vue";
 
-    export default defineComponent({
-        name: "TheMainWhoWeAreSecond",
-        components: {
-            VCategoryH3Vue,
-            VCategoryPVue,
-            VCategoryDescriptionVue,
-            TheMainWhoWeAreSecondPeopleVue
-        },
-        computed: {
-            isMobile() {
-                return this.$store.state.isMobile;
-            },
-            BR_MOBILE_HTML() {
-                return this.$store.getters.BR_MOBILE_HTML;
-            }
-        }
-    })
+    const indexStore = useStore();
+    const { isMobile } = storeToRefs(indexStore);
+
+    const BR_MOBILE_HTML = computed(() => (
+        isMobile.value ? "<br>" : ""
+    ));
 </script>
 
 <style lang="scss">

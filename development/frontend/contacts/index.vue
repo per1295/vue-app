@@ -1,14 +1,15 @@
 <template>
-    <component
-    :is="isMobile ? TheHeaderWithArrowTopVue : TheHeaderVue"
-    :background-image="backgroundImage"
-    :mobile-background-image="''"
-    />
-    <the-main-vue/>
-    <the-footer-vue
-    :additional-styles="{ 'margin': `${isMobile ? 148 : 86}px 0 0 0` }"
-    />
-    <the-download-vue/>
+    <the-layout-vue>
+        <component
+        :is="isMobile ? TheHeaderWithArrowTopVue : TheHeaderVue"
+        :background-image="backgroundImage"
+        :mobile-background-image="''"
+        />
+        <the-main-vue/>
+        <the-footer-vue
+        :additional-styles="{ 'margin': `${isMobile ? 148 : 86}px 0 0 0` }"
+        />
+    </the-layout-vue>
 </template>
 
 <script setup lang="ts">
@@ -20,7 +21,7 @@
     import TheHeaderWithArrowTopVue from "../globalComponents/TheHeaderWithArrowTop.vue";
     import TheMainVue from "./components/TheMain.vue";
     import TheFooterVue from "../globalComponents/TheFooter.vue";
-    import TheDownloadVue from "../globalComponents/TheDownload.vue";
+    import TheLayoutVue from "../globalComponents/TheLayout.vue";
 
     import backgroundImage from "./images/cd_intro_work_page_background_2_contacts.png";
 

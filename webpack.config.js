@@ -42,7 +42,7 @@ const frontendConfig = (env) => {
                             loader: "ts-loader",
                             options: {
                                 appendTsSuffixTo: [ '\\.vue$' ],
-                                ignoreDiagnostics: [ 2345, 7006, 2571 ]
+                                ignoreDiagnostics: [ 2345, 7006, 2571, 7031 ]
                             }
                         }
                     ],
@@ -153,7 +153,7 @@ const serverConfig = (env) => {
                             loader: "ts-loader",
                             options: {
                                 appendTsSuffixTo: [ '\\.vue$' ],
-                                ignoreDiagnostics: [ 2345, 7006, 2571, 2322, 7015 ]
+                                ignoreDiagnostics: [ 2345, 7006, 2571, 2322, 7015, 7031, 18046 ]
                             }
                         }
                     ],

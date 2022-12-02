@@ -8,7 +8,13 @@ import homeRouter from "./routes/home";
 import globalRouter from "./routes/global";
 import blogRouter from "./routes/blog";
 
+const { env } = getArgs();
+
 const app = express();
+
+app.set("env", env);
+
+app.disable("x-powered-by");
 
 app.use(
     express.static(resolve(__dirname, "../frontend")),
@@ -25,8 +31,6 @@ app.get(/\//, loggedHandlers(
 
         await router.push(req.url);
         await router.isReady();
-
-        const { env } = getArgs();
 
         const startHTML = `
         <!DOCTYPE html>

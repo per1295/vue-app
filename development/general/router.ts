@@ -1,5 +1,4 @@
 import { createRouter, createMemoryHistory, createWebHistory, RouteRecordRaw } from "vue-router";
-import TheFoundation from "../frontend/globalComponents/TheFoundation.vue";
 
 const isServer = typeof window === "undefined";
 const createHistory = isServer ? createMemoryHistory : createWebHistory;
@@ -16,51 +15,27 @@ import { resetMenu, scrollToTop } from "../functions";
 const routes: RouteRecordRaw[] = [
     {
         path: "/home",
-        component: TheFoundation,
-        props: {
-            asyncComponent: Home,
-            key: "0"
-        }
+        component: Home
     },
     {
         path: "/about",
-        component: TheFoundation,
-        props: {
-            asyncComponent: About,
-            key: "1"
-        }
+        component: About
     },
     {
         path: "/work",
-        component: TheFoundation,
-        props: {
-            asyncComponent: Work,
-            key: "2"
-        }
+        component: Work
     },
     {
         path: "/project",
-        component: TheFoundation,
-        props: {
-            asyncComponent: Project,
-            key: "3"
-        }
+        component: Project
     },
     {
         path: "/contacts",
-        component: TheFoundation,
-        props: {
-            asyncComponent: Contacts,
-            key: "4"
-        }
+        component: Contacts
     },
     {
         path: "/blog",
-        component: TheFoundation,
-        props: {
-            asyncComponent: Blog,
-            key: "5"
-        }
+        component: Blog
     },
     {
         path: "/",

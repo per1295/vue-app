@@ -1,14 +1,15 @@
 <template>
-    <the-header-with-arrow-vue
-    :background-image="backgroundImage"
-    :mobile-background-image="mobileBackgroundImage"
-    :selector="headerSelector"
-    />
-    <the-main-vue/>
-    <the-footer-vue
-    :additional-styles="styleForFooter"
-    />
-    <the-download-vue/>
+    <the-layout-vue>
+        <the-header-with-arrow-vue
+        :background-image="backgroundImage"
+        :mobile-background-image="mobileBackgroundImage"
+        :selector="headerSelector"
+        />
+        <the-main-vue/>
+        <the-footer-vue
+        :additional-styles="styleForFooter"
+        />
+    </the-layout-vue>
 </template>
 
 <script setup lang="ts">
@@ -19,7 +20,7 @@
     import TheHeaderWithArrowVue from "../globalComponents/TheHeaderWithArrow.vue";
     import TheMainVue from "./components/TheMain.vue";
     import TheFooterVue from "../globalComponents/TheFooter.vue";
-    import TheDownloadVue from "../globalComponents/TheDownload.vue";
+    import TheLayoutVue from "../globalComponents/TheLayout.vue";
 
     import backgroundImage from "./images/cd_intro_project_background_2_project.png";
     import mobileBackgroundImage from "./mobileImages/cd_intro_background_4_project.png";

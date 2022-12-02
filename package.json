@@ -1,13 +1,14 @@
 {
   "name": "vue-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "Vue-app",
   "private": true,
   "main": "webpack.config.js",
   "scripts": {
-    "dev": "npx webpack --progress --env mode=development && node ./docs/backend/index.js env=development",
+    "dev": "npm run build && node ./docs/backend/index.js env=development",
     "build": "npx webpack --progress --env mode=development",
-    "start": "npx webpack --progress --env mode=production && node ./docs/backend/index.js env=production",
+    "start": "npm run production && node ./docs/backend/index.js env=production",
+    "production": "npx webpack --progress --env mode=production",
     "test": "jest --detectOpenHandles"
   },
   "keywords": [],

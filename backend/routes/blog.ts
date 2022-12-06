@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { InfPostModel, BlogModel } from "../models";
-import { loggedHandlers, BlogPageResponse } from "../functions";
+import { InfPostModel, BlogModel } from "../models.js";
+import { loggedHandlers, BlogPageResponse } from "../functions.js";
 import type { Document } from "mongoose";
-import type { InfPost, Blog } from "../models";
+import type { InfPost, Blog } from "../models.js";
 
 interface IQuery {
     lastId?: string;

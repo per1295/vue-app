@@ -11,6 +11,14 @@ Unit тесты: Jest, Supertest
 
 Установите на локальную машину MongoDB Community Server (https://www.mongodb.com/try/download/community)
 
+## Запуск сервера для разработки
+
+Выполните команду: npm run dev
+
+## Запуск сервера для производства
+
+Прежде чем выполнять команду: npm start, выполните команду: npm run build:client && npm run build:server  
+
 ## Использование Docker
 
 1. Установите Docker Desktop.

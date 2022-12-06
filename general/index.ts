@@ -2,7 +2,7 @@ import { createSSRApp } from "vue";
 import { createPinia } from "pinia";
 import createRouter from "./router";
 import Index from "../frontend/index.vue";
-import App from '../frontend/App.vue';
+import App from "../frontend/app.vue";
 
 export default function() {
     const rootApp = typeof window === "undefined" ? Index : App;

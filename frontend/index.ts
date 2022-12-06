@@ -50,22 +50,6 @@ window.addEventListener("pointermove", (event) => {
     setYGrabPercent(percent);
 });
 
-async function registerServiceWorker() {
-    try {
-        if ( "serviceWorker" in navigator ) {
-            if ( !/^https/.test(location.protocol) && location.hostname !== "localhost" ) return;
-            const registration = await navigator.serviceWorker.getRegistration("/");
-            if ( registration ) await registration.update();
-            else await navigator.serviceWorker.register("/serviceWorker.js", { scope: "/" });
-        }
-    } catch (error) {
-        let err = error as Error;
-        logError(err);
-    }
-}
-
-registerServiceWorker();
-
 async function startApp() {
     const { app, router } = createApp();
     await router.isReady();

@@ -2,7 +2,7 @@
     <div class="navLinks_colum">
         <router-link v-for="( item, index ) of LIST_NAV_LINKS"
         :key="index"
-        :to="item"
+        :to="`/${item}`"
         class="navLinks_colum__link"
         active-class="navLinks_colum__link_active"
         @pointerenter="new RegExp(`${item}$`, 'i').test(route.path) ? undefined : pointerEnter($event)"

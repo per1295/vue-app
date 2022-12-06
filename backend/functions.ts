@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
-import { BlogModel, InfPostModel, LastPostModel } from "./models";
-import type { Blog, InfPost, LastPost } from "./models";
+import { BlogModel, InfPostModel, LastPostModel } from "./models.js";
+import type { Blog, InfPost, LastPost } from "./models.js";
 
 export function logError<TypeError extends Error>(error: TypeError): TypeError {
     console.error(error.name + ": " + error.message);
@@ -12,7 +12,7 @@ interface IArgv {
 }
 
 interface IParsedArgv {
-    env: string;
+    NODE_ENV: string;
 }
 
 export function getArgs(): IParsedArgv {
@@ -58,23 +58,21 @@ export class BlogPageResponse implements IBlogPageResponse {
 }
 
 export async function initMongoDB() {
-    const reviver = (key: string, value: any) => key === "_id" ? value?.$oid : value;
-
     try {
         const blogsLength = (await BlogModel.find({})).length;
         const inf_postsLength = (await InfPostModel.find({})).length;
         const postsLength = (await LastPostModel.find({})).length;
 
         if ( blogsLength === 0 ) {
-            const blogs = JSON.parse((await import("./mongodb/blogs.json")).default, reviver) as Blog[];
+            const blogs = (await import("./mongodb/blogs.json")).default as Blog[];
             await BlogModel.insertMany(blogs);
         };
         if ( inf_postsLength === 0 ) {
-            const inf_posts = JSON.parse((await import("./mongodb/inf_posts.json")).default, reviver) as InfPost[];
+            const inf_posts = (await import("./mongodb/inf_posts.json")).default as InfPost[];
             await InfPostModel.insertMany(inf_posts);
         };
         if ( postsLength === 0 ) {
-            const posts = JSON.parse((await import("./mongodb/posts.json")).default, reviver) as LastPost[];
+            const posts = (await import("./mongodb/posts.json")).default as LastPost[];
             await LastPostModel.insertMany(posts);
         };
     } catch (error) {

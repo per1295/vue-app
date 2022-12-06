@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { loggedHandlers } from "../functions";
+import { loggedHandlers } from "../functions.js";
 import { resolve } from "path";
     
 const globalRouter = Router();

@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 declare module '*.vue' {
     import { defineComponent } from 'vue';
 
@@ -6,5 +8,7 @@ declare module '*.vue' {
 }
 
 declare module "*.png";
+
+declare module "*.js";
 
 declare module "*.json";

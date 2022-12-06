@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { LastPostModel } from "../models";
-import { loggedHandlers } from "../functions";
+import { LastPostModel } from "../models.js";
+import { loggedHandlers } from "../functions.js";
 
 const homeRouter = Router();
 

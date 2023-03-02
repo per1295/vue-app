@@ -9,42 +9,19 @@ interface IPostData {
     content: string;
 }
 
+interface State {
+    postData: IPostData | null;
+}
+
 const usePostData = defineStore("postData", {
     state: () => ({
-        postData: {
-            imgForComputer: "",
-            imgForMobile: "",
-            date: "",
-            title: "",
-            content: ""
-        },
-        postDataProgress: {
-            nowLength: 0,
-            length: 0
-        }
-    }),
-    getters: {
-        isPostLoaded: state => {
-            const { nowLength, length } = state.postDataProgress;
-            if ( nowLength === 0 || length === 0 ) return false;
-            return nowLength * 100 / length === 100 ? true : false;
-        }
-    },
+        postData: null
+    } as State),
     actions: {
         async getPostData() {
-            const postDataGenerator = Data.getDataProgress("/home/postData");
-            
-            while(true) {
-                const loading = await postDataGenerator.next();
-                if ( loading.done ) {
-                    const data = JSON.parse(loading.value) as IPostData;
-                    this.postData = data;
-                    break;
-                };
-                const [ nowLength, length ] = loading.value;
-                if ( this.postDataProgress.length === 0 ) this.postDataProgress.length = length;
-                this.postDataProgress.nowLength = nowLength;
-            }
+            const data = await Data.getData<IPostData>("/home/postData", "json");
+
+            if ( data instanceof Object ) this.postData = data;
         }
     }
 });

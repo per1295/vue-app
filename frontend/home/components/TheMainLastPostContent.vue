@@ -1,7 +1,7 @@
 <template>
     <div class="main_lastPost__content">
         <transition name="post-appeare" mode="out-in">
-            <div class="wrapper" v-if="isPostLoaded">
+            <div class="wrapper" v-if="src">
                 <v-image-vue
                 :src="src || ''"
                 alt="post_image"
@@ -25,13 +25,23 @@
     import TheMainLastPostContentValueVue from "./TheMainLastPostContentValue.vue";
 
     const postDataStore = usePostsData();
-    const { isPostLoaded, postData } = storeToRefs(postDataStore);
+    const { postData } = storeToRefs(postDataStore);
     const { getPostData } = postDataStore;
 
     const indexStore = useStore();
     const { isMobile, isNarrowMobile } = storeToRefs(indexStore);
 
-    const src = computed(() => isMobile.value ? postData.value.imgForMobile : postData.value.imgForComputer);
+    const src = computed(() => (
+        postData.value
+        ?
+        isMobile.value
+        ?
+        postData.value.imgForMobile
+        :
+        postData.value.imgForComputer
+        :
+        null
+    ));
 
     onMounted(() => getPostData());
 </script>

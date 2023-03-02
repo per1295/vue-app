@@ -2,16 +2,19 @@ import express from "express";
 import { initMongoDB, getArgs } from "./backend/functions.js";
 import mongoose from "mongoose";
 import { config } from "dotenv";
-import { resolve, dirname } from "path";
+import { resolve, dirname, join } from "path";
 import { createServer, ViteDevServer } from "vite";
 import { fileURLToPath } from "url";
 import { readFile } from "fs/promises";
+import compression from "compression";
 
 import homeRouter from "./backend/routes/home.js";
 import globalRouter from "./backend/routes/global.js";
 import blogRouter from "./backend/routes/blog.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const dist = join(process.cwd(), "dist");
+const clientDir = join(dist, "client");
 
 config();
 
@@ -39,8 +42,14 @@ async function server() {
     
         app.use(vite.middlewares);
     } else {
+        const compressionMiddleware = compression();
+        app.use(compressionMiddleware);
+
         app.use(
-            express.static(resolve(__dirname, "dist/client")),
+            (req, res, next) => {
+                if ( /\.html?$/.test(req.path) ) next();
+                else express.static(clientDir)(req, res, next);
+            }
         );
     }
 
@@ -53,7 +62,7 @@ async function server() {
 
         try {
             let template = await readFile(
-                resolve(__dirname, NODE_ENV === "production" ? "dist/client/index.html" : "index.html"),
+                resolve(__dirname, NODE_ENV === "production" ? join(clientDir, "index.html") : "index.html"),
                 "utf-8"
             );
 
@@ -62,12 +71,13 @@ async function server() {
             const { render } =
             NODE_ENV === "production"
             ?
+            // @ts-ignore
             await import("./dist/server/server-ssr.js")
             :
-            await vite.ssrLoadModule("/general/server-ssr.ts");
+            await vite.ssrLoadModule("./general/server-ssr.ts");
 
             const appHTML = await render(req);
-
+            
             const html = template.replace("<!--ssr-outlet-->", appHTML);
 
             res.status(200).set({ "Content-Type": "text/html" }).end(html);

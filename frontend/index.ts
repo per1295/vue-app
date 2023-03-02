@@ -1,8 +1,6 @@
 import "regenerator-runtime";
-import "@fontsource/open-sans";
-import "@fontsource/cardo"
 import createApp from "../general/index";
-import { logError, setMatchMedia } from "../functions/index";
+import { setMatchMedia } from "../functions/index";
 import { storeToRefs } from "pinia";
 import useStore from "../general/stores";
 import useDownloadImage from "../general/stores/downloadImage";

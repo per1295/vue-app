@@ -16,51 +16,17 @@ export class Data {
         try {
             const response = await fetch(url, options);
             if ( !response.ok ) throw new Error("GetData - Request was failed");
-            const contentType = response.headers.get("Content-Type") as string;
+
+            const contentType = response.headers.get("Content-Type");
+            if ( !contentType ) throw new TypeError("Content-Type head is not defined");
+
             const regExp = new RegExp(`${format}`, "i");
+            
             if ( !regExp.test(contentType) ) return await response.text();
             else return await response[format]();
         } catch (error) {
             logError(error as Error);
             return null;
-        }
-    }
-
-    public static async *getDataProgress(url: string, options?: Omit<RequestInit, "method" | "body">) {
-        try {
-            const response = await fetch(url, options);
-            if ( typeof response.body?.getReader === "undefined" ) throw Error("GetDataProgress - Reader isn`t defined");
-            const reader = response.body.getReader();
-            const contentLength = response.headers.get("Content-Length");
-            if ( contentLength === null ) throw new Error("Content-Length is null");
-            
-            let nowLength = 0, chunks: Uint8Array[] = [];
-
-            while(true) {
-                const { done, value } = await reader.read();
-                if ( done ) break;
-                if ( value ) {
-                    chunks.push(value);
-                    nowLength += value.length;
-                }
-                yield [ nowLength, +contentLength ];
-            }
-
-            const allChunks = new Uint8Array(nowLength);
-            let position = 0;
-
-            for ( let chunk of chunks ) {
-                allChunks.set(chunk, position);
-                position += chunk.length;
-            }
-
-            const decoder = new TextDecoder("utf-8");
-            const result = decoder.decode(allChunks);
-
-            return result;
-        } catch(error) {
-            logError(error as Error);
-            return "";
         }
     }
 }
